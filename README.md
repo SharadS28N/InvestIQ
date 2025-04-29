@@ -50,14 +50,17 @@ To become the most trusted AI-powered investment platform in Nepal—helping inv
 Thanks to these amazing people who have helped shape InvestIQ:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/MohitElixir"><img src="https://avatars.githubusercontent.com/u/68589044?v=4" width="100px;" alt="MohitElixir"/><br /><sub><b>MohitElixir</b></sub></a><br />💡 🎨 💻</td>
-  </tr>
-    <tr>
-    <td align="center"><a href="https://github.com/SharadS28N"><img src="https://avatars.githubusercontent.com/u/67964044?v=4" width="100px;" alt="MohitElixir"/><br /><sub><b>SharadS28N</b></sub></a><br />💡 🎨 💻</td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://github.com/MohitElixir">
+    <img src="https://avatars.githubusercontent.com/u/68589044?v=4" width="100px" style="border-radius: 50%" alt="MohitElixir"/>
+    <br /><sub><b>MohitElixir</b></sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/SharadS28N">
+    <img src="https://avatars.githubusercontent.com/u/67964044?v=4" width="100px" style="border-radius: 50%" alt="SharadS28N"/>
+    <br /><sub><b>SharadS28N</b></sub>
+  </a>
+</p>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 > 📫 For media inquiries, partnerships, or to learn more, reach out to us directly.  
