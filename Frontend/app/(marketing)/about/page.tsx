@@ -12,7 +12,7 @@ export default function AboutPage() {
       image: "/about-us/sharad-bhandari.jpg",  // Ensure correct path
     },
     {
-      name: "Mohit",
+      name: "Mohit Bikram shahi",
       position: "Chief Technology Officer",
       bio: "AI specialist with a background in machine learning and financial technology. Leads the development of our AI recommendation engine.",
       image: "/about-us/mohit-bikram-shahi.jpg", // Ensure correct path
