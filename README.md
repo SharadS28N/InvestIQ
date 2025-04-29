@@ -54,6 +54,9 @@ Thanks to these amazing people who have helped shape InvestIQ:
   <tr>
     <td align="center"><a href="https://github.com/MohitElixir"><img src="https://avatars.githubusercontent.com/u/68589044?v=4" width="100px;" alt="MohitElixir"/><br /><sub><b>MohitElixir</b></sub></a><br />💡 🎨 💻</td>
   </tr>
+    <tr>
+    <td align="center"><a href="https://github.com/SharadS28N"><img src="https://avatars.githubusercontent.com/u/67964044?v=4" width="100px;" alt="MohitElixir"/><br /><sub><b>SharadS28N</b></sub></a><br />💡 🎨 💻</td>
+  </tr>
 </table>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
