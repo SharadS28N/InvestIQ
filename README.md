@@ -44,17 +44,24 @@ To become the most trusted AI-powered investment platform in Nepal—helping inv
 
 ---
 
+
 ## 👥 Contributors
 
 Thanks to these amazing people who have helped shape InvestIQ:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- The contributors will be automatically added here -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/MohitElixir"><img src="https://avatars.githubusercontent.com/u/68589044?v=4" width="100px;" alt="MohitElixir"/><br /><sub><b>MohitElixir</b></sub></a><br />💡 🎨 💻</td>
+  </tr>
+</table>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://allcontributors.org) specification.  
-To add yourself or someone else, use the comment:  
-`@all-contributors please add @username for code, ideas, design, etc.`
+To add yourself or someone else, use the comment below in issues or PRs:
+
+```bash
+@all-contributors please add @MohitElixir for code, ideas
 
 ---
 
