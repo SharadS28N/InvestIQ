@@ -57,13 +57,5 @@ Thanks to these amazing people who have helped shape InvestIQ:
 </table>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://allcontributors.org) specification.  
-To add yourself or someone else, use the comment below in issues or PRs:
-
-```bash
-@all-contributors please add @MohitElixir for code, ideas
-
----
-
 > 📫 For media inquiries, partnerships, or to learn more, reach out to us directly.  
 > 🔗 *Invest Smarter. Grow Better. With InvestIQ.*
