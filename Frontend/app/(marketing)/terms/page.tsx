@@ -14,12 +14,14 @@ export default function TermsPage() {
            you have entered into a binding contract with InvestIQ. These Terms of Service, together with our Privacy
            Policy, govern your access to and use of the InvestIQ platform.
         </p>
+        <br />
 
         <h2 className="text-1xl font-bold">2. Acceptance of Terms</h2>
         <p>
           By accessing or using our service, you agree to be bound by these Terms. If you disagree with any part of the
           terms, then you may not access the service.
         </p>
+        <br />
 
         <h2 className="text-1xl font-bold">3. Description of Service</h2>
         <p>
@@ -27,6 +29,7 @@ export default function TermsPage() {
           management, market analysis, AI-driven insights, and educational resources. The service may include features
           such as auto-trading, real-time alerts, and other investment tools.
         </p>
+        <br />
 
         <h2 className="text-1xl font-bold">4. User Accounts</h2>
         <p>
@@ -38,6 +41,7 @@ export default function TermsPage() {
           actions under your password. You agree not to disclose your password to any third party. You must notify us
           immediately upon becoming aware of any breach of security or unauthorized use of your account.
         </p>
+        <br />
 
         <h2 className="text-1xl font-bold">5. Financial Disclaimer</h2>
         <p>
@@ -50,6 +54,7 @@ export default function TermsPage() {
           future results. The material on our platform does not take into account your personal investment objectives,
           financial situation, or needs and is not intended as a recommendation to you or any specific person.
         </p>
+
         <br />
         <h2 className="text-1xl font-bold">6. Auto-Trading Features</h2>
         <p>If you choose to use our auto-trading features, you acknowledge that:</p>
@@ -62,6 +67,7 @@ export default function TermsPage() {
           <li>You are ultimately responsible for all trading decisions made through your account</li>
           <li>Technical issues may affect the execution of trades</li>
         </ul>
+        <br />
 
         <h2 className="text-1xl font-bold">7. Intellectual Property</h2>
         <p>
@@ -69,13 +75,14 @@ export default function TermsPage() {
           of InvestIQ and its licensors. The service is protected by copyright, trademark, and other laws of Nepal and
           foreign countries.
         </p>
+        <br />
 
         <h2 className="text-1xl font-bold">8. Termination</h2>
         <p>
           We may terminate or suspend your account immediately, without prior notice or liability, for any reason
           whatsoever, including without limitation if you breach the Terms.
         </p>
-
+        <br />
         <h2 className="text-1xl font-bold">9. Limitation of Liability</h2>
         <p>
           In no event shall InvestIQ, nor its directors, employees, partners, agents, suppliers, or affiliates, be
@@ -83,13 +90,13 @@ export default function TermsPage() {
           loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or
           inability to access or use the service.
         </p>
-
+        <br />
         <h2 className="text-1xl font-bold">10. Changes to Terms</h2>
         <p>
           We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is
           material we will try to provide at least 30 days' notice prior to any new terms taking effect.
         </p>
-
+        <br />
         <h2 className="text-1xl font-bold">11. Contact Us</h2>
         <p>If you have any questions about these Terms, please contact us at legal@investiq.com.np.</p>
       </div>
