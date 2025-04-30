@@ -14,8 +14,11 @@ import {
   Lock,
   Sparkles,
 } from "lucide-react"
+import { getUserData } from './getUsers'
 
-export default function LandingPage() {
+
+export default async function LandingPage() {
+  const { userCount, profileImages } = await getUserData()
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -44,15 +47,24 @@ export default function LandingPage() {
                   <Link href="/auth/login">Sign In</Link>
                 </Button>
               </div>
-
               <div className="flex items-center gap-2 pt-4">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
+                  {/* Map through profile images */}
+                  {profileImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className="w-8 h-8 rounded-full border-2 border-white overflow-hidden"
+                    >
+                      <img
+                        src={image}
+                        alt={`User ${index + 1}`}
+                        className="w-full h-full object-cover object-center"
+                      />
+                    </div>
                   ))}
                 </div>
                 <p className="text-sm text-gray-600">
-                  <span className="font-medium">1,000+</span> investors already using InvestIQ
+                  <span className="font-medium">{userCount.toLocaleString()}</span> investors already using InvestIQ
                 </p>
               </div>
             </div>
