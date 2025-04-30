@@ -9,7 +9,7 @@ export default function PricingPage() {
     {
       name: "Basic",
       description: "Essential features for new investors",
-      price: "NPR 999",
+      price: "NPR 499",
       period: "/month",
       features: [
         { name: "Portfolio tracking", included: true },
@@ -71,7 +71,7 @@ export default function PricingPage() {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Simple, transparent pricing</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-            Choose the plan that's right for your investment needs. All plans include a 14-day free trial.
+            Choose the plan that's right for your investment needs. All plans include a 10-day free trial.
           </p>
         </div>
       </div>
@@ -126,7 +126,7 @@ export default function PricingPage() {
           <div>
             <h3 className="font-bold mb-2">Is there a free trial?</h3>
             <p className="text-gray-500">
-              Yes, all plans come with a 14-day free trial. No credit card required to start.
+              Yes, all plans come with a 10-day free trial. No credit card required to start.
             </p>
           </div>
           <div>
