@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import emailjs from 'emailjs-com'
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -11,13 +12,28 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Phone, MapPin, Send } from "lucide-react"
 
+
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
+  
+    emailjs.sendForm(
+      'your_service_id',    // Replace with your EmailJS service ID
+      'your_template_id',   // Replace with your EmailJS template ID
+      e.target as HTMLFormElement,
+      'your_public_key'     // Replace with your EmailJS public key
+    ).then(() => {
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    }).catch((error) => {
+      console.error("Failed to send email:", error)
+      setIsSubmitting(false)
+      alert("Something went wrong. Please try again.")
+    })
 
     // Simulate API call
     setTimeout(() => {
