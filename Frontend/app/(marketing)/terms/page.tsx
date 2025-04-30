@@ -8,7 +8,7 @@ export default function TermsPage() {
       <div className="prose max-w-none">
         <p>Last updated: April 27, 2023</p>
 
-        <h2 className="text-2xl font-bold">1. Introduction</h2>
+        <h2 className="text-1xl font-bold">1. Introduction</h2>
         <p>
            Welcome to InvestIQ ("Company", "we", "our", "us")! As you have clicked "I agree" to these Terms of Service,
            you have entered into a binding contract with InvestIQ. These Terms of Service, together with our Privacy
