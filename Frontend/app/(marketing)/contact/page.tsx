@@ -1,10 +1,6 @@
 "use client"
 
 import type React from "react"
-import emailjs from '@emailjs/browser'
-
-
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,30 +10,40 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Phone, MapPin, Send } from "lucide-react"
 
-
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-  
-    emailjs.sendForm(
-      'service_b1achw9',    // Replace with your EmailJS service ID
-      'template_tforp6c',   // Replace with your EmailJS template ID
-      e.target as HTMLFormElement,
-      'taK6I6i54uYICX_yh'     // Replace with your EmailJS public key
-    ).then(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-    })
-    .catch((error) => {
-      console.error("Failed to send email. Full error:", error?.text || error?.message || error)
-      setIsSubmitting(false)
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+
+    try {
+      const response = await fetch("https://formspree.io/f/mqaqegdy", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        form.reset()
+      } else {
+        const data = await response.json()
+        console.error("Form submission error:", data)
+        alert("Something went wrong. Please try again.")
+      }
+    } catch (error) {
+      console.error("Form submission failed:", error)
       alert("Something went wrong. Please try again.")
-    })
-    
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -79,24 +85,24 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First name</Label>
-                      <Input id="first-name" name="first_name" required />
+                      <Input id="first-name" name="first-name" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last name</Label>
-                      <Input id="last-name" name="last_name" required />
+                      <Input id="last-name" name="last-name" required />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" name="user_email" required />
+                    <Input id="email" name="email" type="email" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone (optional)</Label>
-                    <Input id="phone" type="tel" name="user_phone" />
+                    <Input id="phone" name="phone" type="tel" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
-                    <Select>
+                    <Select name="subject" required>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
@@ -146,7 +152,7 @@ export default function ContactPage() {
                 <MapPin className="h-5 w-5 text-primary mt-0.5" />
                 <div>
                   <h3 className="font-medium">Office</h3>
-                  <p className="text-gray-600">kathmandu</p>
+                  <p className="text-gray-600">Kathmandu</p>
                   <p className="text-gray-600">Nepal</p>
                 </div>
               </div>
