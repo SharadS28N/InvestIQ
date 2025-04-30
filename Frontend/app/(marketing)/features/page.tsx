@@ -71,12 +71,6 @@ export default function FeaturesPage() {
         "Access InvestIQ from any device with our fully responsive design. Whether you're on desktop, tablet, or mobile, you'll get the same powerful features and intuitive interface.",
     },
     {
-      icon: CloudOff,
-      title: "Offline Support",
-      description:
-        "Continue working even when your internet connection is unstable. Our platform caches key data so you can view your portfolio and recent insights even offline.",
-    },
-    {
       icon: Users,
       title: "Multi-User Roles",
       description:
