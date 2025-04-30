@@ -8,19 +8,19 @@ export default function AboutPage() {
     {
       name: "Sharad Bhandari",
       position: "CEO & Founder",
-      bio: "Former investment banker with 15 years of experience in financial markets. Founded InvestIQ to democratize AI-powered investing for Nepali investors.",
+      bio: "With experience into AI and development, is a senior developer. Founded InvestIQ to democratize AI-powered investing for Nepali investors.",
       image: "/about-us/sharad-bhandari.jpg",  // Ensure correct path
     },
     {
       name: "Mohit Bikram shahi",
       position: "Chief Technology Officer",
-      bio: "AI specialist with a background in machine learning and financial technology. Leads the development of our AI recommendation engine.",
+      bio: "With a background in Python and AI. Leads the development of our AI recommendation engine.",
       image: "/about-us/mohit-bikram-shahi.jpg", // Ensure correct path
     },
     {
       name: "Prashan Yakkha Rai",
       position: "Financial Analyst",
-      bio: "Certified financial analyst with expertise in Nepali markets. Provides human oversight for our AI recommendations.",
+      bio: "Provides human oversight for our AI recommendations.",
       image: "/about-us/prashan-yakkha-rai.jpg", // Ensure correct path
     },
     {
@@ -59,10 +59,6 @@ export default function AboutPage() {
           <p className="text-gray-600 mb-4">
             Our team of financial and AI experts built a platform that combines smart technology with market knowledge to
             help people at any experience level make better investment decisions.
-          </p>
-          <p className="text-gray-600">
-           Today, InvestIQ supports thousands of investors across Nepal—from individual traders to large institutions. 
-           We're constantly improving our platform, staying focused on our main goal: Invest smarter, grow better
           </p>
         </div>
         <div className="bg-gray-100 p-8 rounded-lg flex items-center justify-center">
