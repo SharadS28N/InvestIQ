@@ -4,10 +4,9 @@ export default function TermsPage() {
   return (
     <div className="container py-12 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
-      <p className="text-[13px]">Last updated: April 27, 2025</p>
 
       <div className="prose max-w-none">
-        <br />
+        <p className="text-[13px]">Last updated: April 27, 2025</p>
         <h2 className="text-1xl font-bold">1. Introduction</h2>
         <p>
             Welcome to InvestIQ ("Company", "we", "our", "us")! As you have clicked "I agree" to these Terms of Service,
