@@ -132,7 +132,7 @@ export default function ContactPage() {
                 <MapPin className="h-5 w-5 text-primary mt-0.5" />
                 <div>
                   <h3 className="font-medium">Office</h3>
-                  <p className="text-gray-600">Thamel, Kathmandu</p>
+                  <p className="text-gray-600">kathmandu</p>
                   <p className="text-gray-600">Nepal</p>
                 </div>
               </div>
