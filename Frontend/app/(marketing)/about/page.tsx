@@ -52,19 +52,17 @@ export default function AboutPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Our Story</h2>
           <p className="text-gray-600 mb-4">
-            InvestIQ was founded in 2023 with a simple mission: to make sophisticated investment tools accessible to
-            every Nepali investor. We recognized that while the Nepal Stock Exchange (NEPSE) offers tremendous
-            opportunities, many investors lack the tools, data, and insights needed to make informed decisions.
+            InvestIQ was started in 2025 with a clear goal: to give every Nepali investor access to smart investment tools.
+            We saw that while  Nepal Stock Exchange [NEPSE] has great potential, many investors don't have the data or insights
+            they need to make good decisions.
           </p>
           <p className="text-gray-600 mb-4">
-            Our team of financial experts and AI specialists came together to build a platform that combines
-            cutting-edge artificial intelligence with deep market knowledge. We believe that by democratizing access to
-            advanced investment technology, we can help investors of all experience levels achieve better results.
+            Our team of financial and AI experts built a platform that combines smart technology with market knowledge to
+            help people at any experience level make better investment decisions.
           </p>
           <p className="text-gray-600">
-            Today, InvestIQ serves thousands of investors across Nepal, from individual retail traders to large
-            institutional clients. We continue to innovate and improve our platform, always with our core mission in
-            mind: Invest Smarter, Grow Better.
+           Today, InvestIQ supports thousands of investors across Nepal—from individual traders to large institutions. 
+           We're constantly improving our platform, staying focused on our main goal: Invest smarter, grow better
           </p>
         </div>
         <div className="bg-gray-100 p-8 rounded-lg flex items-center justify-center">
@@ -74,7 +72,7 @@ export default function AboutPage() {
             </div>
             <h3 className="text-xl font-bold mb-2">Our Vision</h3>
             <p className="text-gray-600">
-              To become the most trusted AI-powered investment platform in Nepal, helping investors make data-driven
+              To become the most trusted AI-powered investment platform in Nepal, helping investors make data driven
               decisions and achieve their financial goals.
             </p>
           </div>
