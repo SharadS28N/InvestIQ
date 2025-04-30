@@ -1,7 +1,9 @@
 "use client"
 
 import type React from "react"
-import emailjs from 'emailjs-com'
+import emailjs from '@emailjs/browser'
+
+
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -22,24 +24,20 @@ export default function ContactPage() {
     setIsSubmitting(true)
   
     emailjs.sendForm(
-      'your_service_id',    // Replace with your EmailJS service ID
-      'your_template_id',   // Replace with your EmailJS template ID
+      'service_b1achw9',    // Replace with your EmailJS service ID
+      'template_tforp6c',   // Replace with your EmailJS template ID
       e.target as HTMLFormElement,
-      'your_public_key'     // Replace with your EmailJS public key
+      'taK6I6i54uYICX_yh'     // Replace with your EmailJS public key
     ).then(() => {
       setIsSubmitting(false)
       setIsSubmitted(true)
-    }).catch((error) => {
-      console.error("Failed to send email:", error)
+    })
+    .catch((error) => {
+      console.error("Failed to send email:", JSON.stringify(error, null, 2))
       setIsSubmitting(false)
       alert("Something went wrong. Please try again.")
     })
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-    }, 1500)
+    
   }
 
   return (
@@ -81,20 +79,20 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First name</Label>
-                      <Input id="first-name" required />
+                      <Input id="first-name" name="first_name" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last name</Label>
-                      <Input id="last-name" required />
+                      <Input id="last-name" name="last_name" required />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" required />
+                    <Input id="email" type="email" name="user_email" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone (optional)</Label>
-                    <Input id="phone" type="tel" />
+                    <Input id="phone" type="tel" name="user_phone" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
@@ -113,7 +111,7 @@ export default function ContactPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" rows={5} required />
+                    <Textarea id="message" name="message" rows={5} required />
                   </div>
                   <Button type="submit" className="w-full" disabled={isSubmitting}>
                     {isSubmitting ? "Sending..." : "Send Message"}
