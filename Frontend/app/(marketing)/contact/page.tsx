@@ -33,7 +33,7 @@ export default function ContactPage() {
       setIsSubmitted(true)
     })
     .catch((error) => {
-      console.error("Failed to send email:", JSON.stringify(error, null, 2))
+      console.error("Failed to send email. Full error:", error?.text || error?.message || error)
       setIsSubmitting(false)
       alert("Something went wrong. Please try again.")
     })
