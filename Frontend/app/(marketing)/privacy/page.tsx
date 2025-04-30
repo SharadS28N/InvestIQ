@@ -63,12 +63,12 @@ export default function PrivacyPage() {
         <h2 className="text-1xl font-bold">7. Your Rights</h2>
         <p>Depending on your location, you may have certain rights regarding your personal data, including:</p>
         <ul>
-          <li className="text-[13px]">i)Right to access your personal data</li>
-          <li className="text-[13px]">ii)Right to correct inaccurate data</li>
-          <li className="text-[13px]">iii)Right to request deletion of your data</li>
-          <li className="text-[13px]">iv)Right to restrict or object to processing</li>
-          <li className="text-[13px]">v)Right to data portability</li>
-          <li className="text-[13px]">vi)Right to withdraw consent</li>
+          <li className="text-[15px]">i)Right to access your personal data</li>
+          <li className="text-[15px]">ii)Right to correct inaccurate data</li>
+          <li className="text-[15px]">iii)Right to request deletion of your data</li>
+          <li className="text-[15px]">iv)Right to restrict or object to processing</li>
+          <li className="text-[15px]">v)Right to data portability</li>
+          <li className="text-[15px]">vi)Right to withdraw consent</li>
         </ul>
 
         <h2 className="text-1xl font-bold">8. Third-Party Services</h2>
