@@ -16,11 +16,11 @@ export default function PrivacyPage() {
         <h2 className="text-1xl font-bold">2. Information We Collect</h2>
         <p>We collect several types of information from and about users of our platform, including:</p>
         <ul>
-          <li className="text-[15px]">Personal identifiers (name, email address, phone number)</li>
-          <li className="text-[15px]">Account credentials</li>
-          <li className="text-[15px]">Financial information (portfolio holdings, transaction history)</li>
-          <li className="text-[15px]">Usage data (how you interact with our platform)</li>
-          <li className="text-[15px]">Device information (IP address, browser type, operating system)</li>
+          <li className="text-[15px]">- Personal identifiers (name, email address, phone number)</li>
+          <li className="text-[15px]">- Account credentials</li>
+          <li className="text-[15px]">- Financial information (portfolio holdings, transaction history)</li>
+          <li className="text-[15px]">- Usage data (how you interact with our platform)</li>
+          <li className="text-[15px]">- Device information (IP address, browser type, operating system)</li>
         </ul>
 <br />
         <h2 className="text-1xl font-bold">3. How We Collect Information</h2>
