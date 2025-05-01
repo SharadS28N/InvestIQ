@@ -7,8 +7,9 @@ import { getAuth, onAuthStateChanged, type User, signOut as firebaseSignOut } fr
 import { useRouter } from "next/navigation"
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
 import { setCookie, deleteCookie } from "cookies-next"
+import { setTheme } from "@/lib/theme" // ✅ Import theme setter
 
-// Your Firebase configuration
+// Firebase config
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -18,12 +19,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app)
 
-// Define user profile type
+// ✅ Updated UserProfile type
 type UserProfile = {
   uid: string
   displayName: string
@@ -36,6 +36,9 @@ type UserProfile = {
   provider: string
   isNewUser?: boolean
   profileCompleted?: boolean
+  theme?: "light" | "dark" | "system"
+  language?: "en" | "ne"
+  currency?: "NPR" | "USD"
 }
 
 type AuthContextType = {
@@ -67,38 +70,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isNewUser, setIsNewUser] = useState(false)
   const router = useRouter()
 
-  // Debug loading state
-  useEffect(() => {
-    console.log("Auth context loading state:", loading)
-    console.log("Auth context user state:", user ? user.uid : "no user")
-  }, [loading, user])
-
-  // Function to fetch user profile from Firestore
   const fetchUserProfile = async (uid: string) => {
     try {
       const userRef = doc(db, "users", uid)
       const userSnap = await getDoc(userRef)
-
-      if (userSnap.exists()) {
-        return userSnap.data() as UserProfile
-      } else {
-        console.log("No user profile found")
-        return null
-      }
+      return userSnap.exists() ? (userSnap.data() as UserProfile) : null
     } catch (error) {
       console.error("Error fetching user profile:", error)
       return null
     }
   }
 
-  // Function to create or update user profile
   const saveUserProfile = async (user: User, isNewUser = false) => {
     try {
       const userRef = doc(db, "users", user.uid)
       const userSnap = await getDoc(userRef)
 
       if (!userSnap.exists()) {
-        // New user - create profile
         const provider = user.providerData[0]?.providerId || "unknown"
         const providerName = provider.includes("google")
           ? "google"
@@ -112,30 +100,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           email: user.email,
           photoURL: user.photoURL,
           phoneNumber: user.phoneNumber || "",
-          riskProfile: "moderate", // Default risk profile
+          riskProfile: "moderate",
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
           provider: providerName,
           isNewUser: true,
           profileCompleted: false,
+          theme: "light", // default theme
         }
 
         await setDoc(userRef, newProfile)
         setIsNewUser(true)
         return newProfile
       } else {
-        // Existing user - update last login
         const existingProfile = userSnap.data() as UserProfile
-        await setDoc(
-          userRef,
-          {
-            lastLogin: new Date().toISOString(),
-            isNewUser: false,
-          },
-          { merge: true },
-        )
+        await setDoc(userRef, {
+          lastLogin: new Date().toISOString(),
+          isNewUser: false,
+        }, { merge: true })
         setIsNewUser(false)
-        return existingProfile as UserProfile
+        return existingProfile
       }
     } catch (error) {
       console.error("Error saving user profile:", error)
@@ -143,78 +127,78 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  // Function to refresh user profile
   const refreshUserProfile = async () => {
     if (user) {
       const profile = await fetchUserProfile(user.uid)
       if (profile) {
         setUserProfile(profile)
         setIsNewUser(profile.isNewUser || false)
+  
+        // Apply user-specific preferences
+        if (profile.theme) setTheme(profile.theme)
+        if (profile.language) {
+          // apply language preference (see below)
+          console.log("Apply language:", profile.language)
+        }
+        if (profile.currency) {
+          console.log("Set currency preference:", profile.currency)
+        }
       }
     }
   }
+  
 
-  // Function to update user profile
   const updateUserProfile = async (data: Partial<UserProfile>) => {
-    if (!user) return
+    if (!user) {
+      console.warn("No user logged in to update profile")
+      return
+    }
 
     try {
       const userRef = doc(db, "users", user.uid)
-      await setDoc(
-        userRef,
-        {
-          ...data,
-          updatedAt: new Date().toISOString(),
-        },
-        { merge: true },
-      )
+      await setDoc(userRef, {
+        ...data,
+        lastLogin: new Date().toISOString(),
+      }, { merge: true })
 
       await refreshUserProfile()
     } catch (error) {
-      console.error("Error updating profile:", error)
+      console.error("Error updating user profile:", error)
       throw error
     }
   }
 
-  // Set up auth state listener
   useEffect(() => {
-    console.log("Setting up auth state listener")
-
-    // Set a timeout to prevent infinite loading
     const loadingTimeout = setTimeout(() => {
       if (loading) {
-        console.log("Auth loading timeout reached, forcing to false")
         setLoading(false)
       }
     }, 5000)
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log("Auth state changed:", currentUser ? "user logged in" : "no user")
       setUser(currentUser)
 
       if (currentUser) {
         try {
-          // Set the token cookie on auth state change
           const token = await currentUser.getIdToken()
-          setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
+          setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 })
 
           const profile = await fetchUserProfile(currentUser.uid)
+
           if (profile) {
             setUserProfile(profile)
             setIsNewUser(profile.isNewUser || false)
 
-            // Don't redirect here - let the component handle it
-            // This prevents redirect loops
+            // ✅ Apply theme after login
+            if (profile.theme) {
+              setTheme(profile.theme)
+            }
           } else {
-            console.log("No profile found, creating new profile")
-            try {
-              const newProfile = await saveUserProfile(currentUser, true)
-              if (newProfile) {
-                setUserProfile(newProfile)
-                setIsNewUser(true)
-              }
-            } catch (profileError) {
-              console.error("Error creating profile:", profileError)
+            const newProfile = await saveUserProfile(currentUser, true)
+            if (newProfile) {
+              setUserProfile(newProfile)
+              setIsNewUser(true)
+              setTheme(newProfile.theme || "light") // ✅ Apply default if no theme
             }
           }
         } catch (error) {
@@ -223,8 +207,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         setUserProfile(null)
         setIsNewUser(false)
-        // Clear the token cookie when logged out
         deleteCookie("firebaseToken")
+
+        // ✅ Reset theme to default when logging out
+        setTheme("light")
       }
 
       setLoading(false)
@@ -241,8 +227,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await firebaseSignOut(auth)
       setUserProfile(null)
-      // Clear the token cookie when logged out
       deleteCookie("firebaseToken")
+      setTheme("light") // ✅ Reset theme on logout
       router.push("/auth/login")
     } catch (error) {
       console.error("Error signing out:", error)

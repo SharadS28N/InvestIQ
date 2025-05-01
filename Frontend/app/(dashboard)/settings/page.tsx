@@ -9,6 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuth } from "@/components/auth-context"
 import { useToast } from "@/components/ui/use-toast"
+import { setTheme } from "@/lib/theme"
+
 
 export default function SettingsPage() {
   const { userProfile, updateUserProfile } = useAuth()
@@ -24,7 +26,7 @@ export default function SettingsPage() {
       newsDigest: false,
     },
     preferences: {
-      theme: "light",
+      theme: userProfile?.theme || "light",
       riskProfile: userProfile?.riskProfile || "moderate",
       language: "en",
       currency: "NPR",
@@ -56,22 +58,34 @@ export default function SettingsPage() {
   }
 
   const handlePreferenceChange = (key: string, value: string) => {
-    setSettings({
-      ...settings,
-      preferences: {
-        ...settings.preferences,
-        [key]: value,
-      },
+    setSettings((prev) => {
+      const updated = {
+        ...prev,
+        preferences: {
+          ...prev.preferences,
+          [key]: value,
+        },
+      }
+  
+      if (key === "theme") {
+        setTheme(value as "light" | "dark" | "system") // apply theme change immediately
+      }
+  
+      return updated
     })
-  }
+  }  
 
   const saveSettings = async () => {
     setIsSaving(true)
     try {
       // Update user profile with new settings
       await updateUserProfile({
-        riskProfile: settings.preferences.riskProfile,
+        riskProfile: settings.preferences.riskProfile as "conservative" | "moderate" | "aggressive",
+        theme: settings.preferences.theme as "light" | "dark" | "system",
+        language: settings.preferences.language as "en" | "ne",
+        currency: settings.preferences.currency as "NPR" | "USD",
       })
+      
 
       toast({
         title: "Settings saved",
