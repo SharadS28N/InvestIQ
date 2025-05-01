@@ -32,7 +32,9 @@ export default function ResetPasswordPage() {
             <div className="rounded-md bg-primary p-1">
               <LineChart className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="font-semibold text-2xl text-primary">InvestIQ</div>
+            <Link href="/landing" className="font-semibold text-xl text-primary">
+              InvestIQ
+            </Link>
           </div>
           <h1 className="mt-2 text-2xl font-bold tracking-tight">Reset Password</h1>
           <p className="text-sm text-muted-foreground">Enter your email to receive a password reset link</p>
