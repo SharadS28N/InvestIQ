@@ -2,7 +2,6 @@ import type React from "react"
 import Link from "next/link"
 import { LineChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function MarketingLayout({
   children,
@@ -36,7 +35,7 @@ export default function MarketingLayout({
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <ThemeToggle />
+            {/* Remove ThemeToggle component for now */}
             <Button variant="ghost" size="sm" asChild>
               <Link href="/auth/login">Sign In</Link>
             </Button>
