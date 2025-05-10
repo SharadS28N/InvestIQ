@@ -228,34 +228,10 @@ export default function Dashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Market News</CardTitle>
-              <CardDescription>Latest updates from NEPSE</CardDescription>
+              <CardDescription>Real-time updates from financial news sources</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="border-l-4 border-brand-primary pl-4 py-2">
-                  <h4 className="font-medium">NEPSE Gains 15 Points</h4>
-                  <p className="text-sm text-muted-foreground">
-                    The Nepal Stock Exchange gained 15 points today as banking stocks rallied.
-                  </p>
-                  <div className="text-xs text-muted-foreground mt-1">2 hours ago • ShareSansar</div>
-                </div>
-
-                <div className="border-l-4 border-brand-primary pl-4 py-2">
-                  <h4 className="font-medium">NRB Announces New Policy</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Nepal Rastra Bank announced new monetary policy affecting banking sector.
-                  </p>
-                  <div className="text-xs text-muted-foreground mt-1">5 hours ago • MeroLagani</div>
-                </div>
-
-                <div className="border-l-4 border-brand-primary pl-4 py-2">
-                  <h4 className="font-medium">Hydropower Stocks Surge</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Hydropower stocks surged following positive Q2 results.
-                  </p>
-                  <div className="text-xs text-muted-foreground mt-1">Yesterday • NEPSE News</div>
-                </div>
-              </div>
+            <CardContent className="p-0">
+              <NewsFeed />
             </CardContent>
           </Card>
         </div>
