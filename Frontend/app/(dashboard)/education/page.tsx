@@ -266,7 +266,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Official website of the Nepal Stock Exchange with market data and announcements.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => window.open("https://www.nepalstock.com", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
@@ -276,7 +276,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Official platform for online share applications and portfolio management.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => window.open("https://meroshare.cdsc.com.np/#/login", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
@@ -286,7 +286,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Leading financial portal with news, analysis, and data on Nepali stock market.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full"  onClick={() => window.open("https://www.sharesansar.com", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
@@ -296,7 +296,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Financial portal with market data, news, and analysis for Nepali investors.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => window.open("https://merolagani.com", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
@@ -306,7 +306,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Securities Board of Nepal - regulatory body for the securities market.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => window.open("https://sebon.gov.np", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
@@ -316,7 +316,7 @@ export default function EducationPage() {
                   <p className="text-sm text-muted-foreground">
                     Central bank of Nepal with monetary policy and financial regulations.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full"  onClick={() => window.open("https://www.nrb.org.np", "_blank")}>
                     Visit Website
                   </Button>
                 </div>
