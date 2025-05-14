@@ -76,15 +76,22 @@ async function fetchNewsWithProxy(url: string): Promise<NewsItem[]> {
 }
 
 // Enhance error handling in fetchAllNews
+async function fetchNepseNews(): Promise<NewsItem[]> {
+  return fetchNewsWithProxy('http://apinepse.herokuapp.com/');
+}
+
+async function fetchCompanyUpdates(): Promise<NewsItem[]> {
+  return fetchNewsWithProxy('https://npstocks.com/');
+}
+
 export async function fetchAllNews(): Promise<NewsData> {
   try {
-    const [shareSansarNews, meroLaganiNews, shareKakuraNews] = await Promise.all([
-      fetchShareSansarNews(),
-      fetchMeroLaganiNews(),
-      fetchShareKakuraNews()
+    const [nepseNews, companyUpdates] = await Promise.all([
+      fetchNepseNews(),
+      fetchCompanyUpdates()
     ]);
 
-    const allNews = [...shareSansarNews, ...meroLaganiNews, ...shareKakuraNews];
+    const allNews = [...nepseNews, ...companyUpdates];
 
     const marketNews = allNews.filter(news =>
       news.title.toLowerCase().includes('market') ||
