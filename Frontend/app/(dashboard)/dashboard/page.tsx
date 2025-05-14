@@ -10,7 +10,7 @@ import { PortfolioSummary } from "@/components/dashboard/portfolio-summary"
 import { AIInsights } from "@/components/dashboard/ai-insights"
 import { MarketOverview } from "@/components/dashboard/market-overview"
 import { WatchlistTable } from "@/components/dashboard/watchlist-table"
-import { NewsFeed } from "@/components/dashboard/news-feed"
+import NewsFeed from '@/components/dashboard/news-feed';
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { useAuth } from "@/components/auth-context"
 import { useRouter } from "next/navigation"

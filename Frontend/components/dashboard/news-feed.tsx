@@ -1,150 +1,71 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { RefreshCw, ExternalLink } from "lucide-react"
-import { fetchAllNews, fallbackNewsData, type NewsData, type NewsItem } from "@/services/news-service"
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export function NewsFeed() {
-  const [newsData, setNewsData] = useState<NewsData>(fallbackNewsData)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+type NewsItem = {
+  title: string;
+  link: string;
+};
 
-  const fetchNews = async () => {
-    setIsLoading(true)
-    setError(null)
-    try {
-      const data = await fetchAllNews()
-      setNewsData(data)
-    } catch (err) {
-      console.error("Error fetching news:", err)
-      setError("Failed to fetch latest news. Using fallback data.")
-      setNewsData(fallbackNewsData)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+const NewsFeed = () => {
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch news on component mount
   useEffect(() => {
-    fetchNews()
-  }, [])
+    const fetchNews = async () => {
+      try {
+        const proxyUrl = `/api/proxy?url=${encodeURIComponent('https://www.sharesansar.com/')}`;
+        const res = await axios.get(proxyUrl);
+        const html = res.data;
 
-  // Function to open news URL in a new tab
-  const openNewsUrl = (url?: string) => {
-    if (url) {
-      window.open(url, "_blank", "noopener,noreferrer")
-    }
-  }
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const articles: NewsItem[] = [];
+
+        doc.querySelectorAll('.card-title a').forEach((a) => {
+          const title = a.textContent?.trim() || '';
+          const link = a.getAttribute('href') || '';
+          if (title && link) {
+            articles.push({ title, link: `https://www.sharesansar.com${link}` });
+          }
+        });
+
+        setNews(articles.slice(0, 6));
+      } catch (error) {
+        console.error('Failed to fetch news:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
 
   return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="font-medium">Financial News</h3>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="gap-1" 
-            onClick={fetchNews} 
-            disabled={isLoading}
-          >
-            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
-            {isLoading ? "Refreshing..." : "Refresh"}
-          </Button>
-        </div>
-        
-        {error && (
-          <div className="text-sm text-amber-600 mb-4 p-2 bg-amber-50 rounded border border-amber-200">
-            {error}
-          </div>
-        )}
-        
-        <Tabs defaultValue="market">
-          <TabsList className="mb-4">
-            <TabsTrigger value="market">Market News</TabsTrigger>
-            <TabsTrigger value="company">Company News</TabsTrigger>
-            <TabsTrigger value="economy">Economy</TabsTrigger>
-          </TabsList>
+    <div className="space-y-4 p-4">
+      {loading ? (
+        Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-5 w-full rounded-md" />)
+      ) : (
+        news.map((item, idx) => (
+          <Card key={idx} className="p-3 hover:bg-muted transition-colors">
+            <CardContent className="p-0">
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium hover:underline"
+              >
+                {item.title}
+              </a>
+            </CardContent>
+          </Card>
+        ))
+      )}
+    </div>
+  );
+};
 
-          <TabsContent value="market" className="space-y-4">
-            {newsData.market.length > 0 ? (
-              newsData.market.map((news, index) => (
-                <div 
-                  key={index} 
-                  className="border-l-4 border-brand-primary pl-4 py-2 cursor-pointer hover:bg-slate-50 transition-colors"
-                  onClick={() => openNewsUrl(news.url)}
-                >
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-medium">{news.title}</h4>
-                    {news.url && <ExternalLink className="h-3 w-3 text-muted-foreground mt-1 ml-1 flex-shrink-0" />}
-                  </div>
-                  <p className="text-sm text-muted-foreground">{news.summary}</p>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {news.time} • {news.source}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-6 text-muted-foreground">
-                {isLoading ? "Loading news..." : "No market news available"}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="company" className="space-y-4">
-            {newsData.company.length > 0 ? (
-              newsData.company.map((news, index) => (
-                <div 
-                  key={index} 
-                  className="border-l-4 border-brand-primary pl-4 py-2 cursor-pointer hover:bg-slate-50 transition-colors"
-                  onClick={() => openNewsUrl(news.url)}
-                >
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-medium">{news.title}</h4>
-                    {news.url && <ExternalLink className="h-3 w-3 text-muted-foreground mt-1 ml-1 flex-shrink-0" />}
-                  </div>
-                  <p className="text-sm text-muted-foreground">{news.summary}</p>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {news.time} • {news.source}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-6 text-muted-foreground">
-                {isLoading ? "Loading news..." : "No company news available"}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="economy" className="space-y-4">
-            {newsData.economy.length > 0 ? (
-              newsData.economy.map((news, index) => (
-                <div 
-                  key={index} 
-                  className="border-l-4 border-brand-primary pl-4 py-2 cursor-pointer hover:bg-slate-50 transition-colors"
-                  onClick={() => openNewsUrl(news.url)}
-                >
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-medium">{news.title}</h4>
-                    {news.url && <ExternalLink className="h-3 w-3 text-muted-foreground mt-1 ml-1 flex-shrink-0" />}
-                  </div>
-                  <p className="text-sm text-muted-foreground">{news.summary}</p>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {news.time} • {news.source}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-6 text-muted-foreground">
-                {isLoading ? "Loading news..." : "No economy news available"}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
-  )
-}
+export default NewsFeed;
