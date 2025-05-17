@@ -11,11 +11,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await axios.get(targetUrl);
+    const response = await axios.get(targetUrl, {
+      responseType: 'text',
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      },
+    });
+
     return new NextResponse(response.data, {
       status: 200,
       headers: {
-        'Content-Type': 'text/html',
+        'Content-Type': 'text/html; charset=utf-8',
       },
     });
   } catch (error: any) {
