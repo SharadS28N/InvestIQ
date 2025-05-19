@@ -40,7 +40,7 @@ export async function fetchShareSansarNews(): Promise<NewsItem[]> {
       const title = $(el).find('.featured-news-title').text().trim();
       const link = $(el).find('.col-md-10.col-sm-10.col-xs-12 > a').attr('href');
       const summary = ""; // No summary in new structure
-      const fullUrl = link ? `https://www.sharesansar.com${link}` : '';
+      const fullUrl = link ? `${link}` : '';
       const time = $(el).find('span.text-org').text().trim();
 
       if (title && link) {
@@ -96,11 +96,11 @@ export async function fetchMeroLaganiNews(): Promise<NewsItem[]> {
 }
 
 export async function fetchAllNews(): Promise<NewsItem[]> {
-  const [ss, ml] = await Promise.all([
-    fetchShareSansarNews(),
-    fetchMeroLaganiNews(),
-  ]);
-
-  const combined = [...ss, ...ml];
-  return combined.sort((a, b) => b.time.localeCompare(a.time)); // Sort by time if you store real timestamps later
+  try {
+    const ss = await fetchShareSansarNews();
+    return ss.sort((a, b) => b.time.localeCompare(a.time));
+  } catch (err) {
+    console.error("Failed to fetch ShareSansar news", err);
+    return [];
+  }
 }
