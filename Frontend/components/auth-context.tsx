@@ -39,6 +39,18 @@ type UserProfile = {
   theme?: "light" | "dark" | "system"
   language?: "en" | "ne"
   currency?: "NPR" | "USD"
+  address?: string
+  city?: string
+  country?: string
+  dob?: string
+  bio?: string
+  meroshare?: {
+    dpid?: string
+    clientId?: string
+    name?: string
+    boid?: string
+    lastSynced?: string
+  }
 }
 
 type AuthContextType = {

@@ -134,7 +134,7 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <Link href="/users">
                     <Users className="h-4 w-4" />
-                    <span>Users</span>
+                    <span>Profile</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -168,14 +168,22 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" align="start" className="w-56">
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </DropdownMenuItem>
+                <Link href="/users" passHref legacyBehavior>
+                  <DropdownMenuItem asChild>
+                    <a>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </a>
+                  </DropdownMenuItem>
+                </Link>
+                <Link href="/settings" passHref legacyBehavior>
+                  <DropdownMenuItem asChild>
+                    <a>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </a>
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Logout</span>
