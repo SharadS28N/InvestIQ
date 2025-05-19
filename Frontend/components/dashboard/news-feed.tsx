@@ -10,7 +10,6 @@ export default function NewsFeed() {
   const [news, setNews] = useState<NewsItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string>("All")
   const latestNewsRef = useRef<NewsItem[]>([])
 
   const loadNews = async () => {
@@ -37,36 +36,11 @@ export default function NewsFeed() {
   useEffect(() => {
     loadNews()
     const intervalId = setInterval(loadNews, 5 * 60 * 1000) // Refresh every 5 minutes
-
     return () => clearInterval(intervalId)
   }, [])
 
-  // Filter news by selected category
-  const filteredNews =
-    selectedCategory === "All"
-      ? news
-      : news.filter((item) => item.category?.toLowerCase() === selectedCategory.toLowerCase())
-
   return (
     <div className="max-w-full">
-      {/* Category selector */}
-      <nav className="flex space-x-4 overflow-x-auto border-b border-gray-300 pb-2 mb-4 px-2">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`whitespace-nowrap px-4 py-1 rounded-full text-sm font-medium transition
-              ${
-                selectedCategory === cat
-                  ? "bg-primary text-white shadow"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </nav>
-
       {/* Loading state when first loading */}
       {loading && news.length === 0 && (
         <div className="flex justify-center items-center py-12">
@@ -75,12 +49,12 @@ export default function NewsFeed() {
       )}
 
       {/* Error and no news */}
-      {!loading && filteredNews.length === 0 && (
+      {!loading && news.length === 0 && (
         <div className="text-center text-gray-600 py-8">
           {error ? (
             <p className="text-red-600">{error}</p>
           ) : (
-            <p>No news found in this category.</p>
+            <p>No news found.</p>
           )}
         </div>
       )}
@@ -93,7 +67,7 @@ export default function NewsFeed() {
           </div>
         )}
 
-        {filteredNews.map((item, idx) => (
+        {news.map((item, idx) => (
           <a
             key={idx}
             href={item.url}

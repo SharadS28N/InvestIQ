@@ -36,12 +36,12 @@ export async function fetchShareSansarNews(): Promise<NewsItem[]> {
     const $ = cheerio.load(res.data);
     const items: NewsItem[] = [];
 
-    $('.news-listing .single-news').each((_, el) => {
-      const title = $(el).find('h2 a').text().trim();
-      const link = $(el).find('h2 a').attr('href');
-      const summary = $(el).find('p').text().trim();
-      const fullUrl = `https://www.sharesansar.com${link}`;
-      const time = formatRelativeTime(new Date()); // Optional: extract actual time if available
+    $('.featured-news-list.margin-bottom-15').each((_, el) => {
+      const title = $(el).find('.featured-news-title').text().trim();
+      const link = $(el).find('.col-md-10.col-sm-10.col-xs-12 > a').attr('href');
+      const summary = ""; // No summary in new structure
+      const fullUrl = link ? `https://www.sharesansar.com${link}` : '';
+      const time = $(el).find('span.text-org').text().trim();
 
       if (title && link) {
         items.push({
