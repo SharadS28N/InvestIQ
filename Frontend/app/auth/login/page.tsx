@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { LineChart, Facebook } from "lucide-react"
+import { LineChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,10 +22,10 @@ import { initializeApp } from "firebase/app"
 import {
   getAuth,
   GoogleAuthProvider,
-  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
 } from "firebase/auth"
+import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
 
 // Firebase configuration
 const firebaseConfig = {
@@ -41,7 +41,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
-const facebookProvider = new FacebookAuthProvider()
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -72,15 +71,45 @@ export default function LoginPage() {
   }, [user, loading, router])
 
   // Update the handleGoogleLogin function
+  const checkAndHandleDuplicateEmail = async (email: string|null, currentUid: string|null) => {
+    if (!email || !currentUid) return false;
+    const db = getFirestore(app);
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    let oldestProfile: { createdAt: string } | null = null;
+    let oldestUid: string | null = null;
+    let duplicateUids: string[] = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data() as { createdAt: string };
+      if (!oldestProfile || new Date(data.createdAt) < new Date(oldestProfile.createdAt)) {
+        oldestProfile = data;
+        oldestUid = docSnap.id;
+      }
+      if (docSnap.id !== currentUid) {
+        duplicateUids.push(docSnap.id);
+      }
+    });
+    for (const uid of duplicateUids) {
+      await deleteDoc(doc(db, "users", uid));
+    }
+    if (oldestUid && oldestUid !== currentUid) {
+      window.location.href = `/profile?uid=${oldestUid}`;
+      return false;
+    }
+    return true;
+  }
   const handleGoogleLogin = async () => {
     setIsLoading(true)
     try {
       const result = await signInWithPopup(auth, googleProvider)
-
-      // Set a cookie to help with authentication state
-      if (result.user) {
+      if (result && result.user) {
+        const email = result.user.email
+        const uid = result.user.uid
+        const ok = await checkAndHandleDuplicateEmail(email, uid)
+        if (!ok) return
         const token = await result.user.getIdToken()
-        setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
+        setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 })
       }
 
       toast({
@@ -97,39 +126,6 @@ export default function LoginPage() {
       toast({
         title: "Login failed",
         description: error.message || "An error occurred during Google login",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // Update the handleFacebookLogin function similarly
-  const handleFacebookLogin = async () => {
-    setIsLoading(true)
-    try {
-      const result = await signInWithPopup(auth, facebookProvider)
-
-      // Set a cookie to help with authentication state
-      if (result.user) {
-        const token = await result.user.getIdToken()
-        setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
-      }
-
-      toast({
-        title: "Login successful",
-        description: "Welcome to InvestIQ!",
-      })
-
-      // Add explicit redirection with noRedirect parameter to prevent loops
-      const dashboardUrl = new URL("/dashboard", window.location.origin)
-      dashboardUrl.searchParams.set("noRedirect", "true")
-      window.location.href = dashboardUrl.toString()
-    } catch (error: any) {
-      console.error("Facebook login error:", error)
-      toast({
-        title: "Login failed",
-        description: error.message || "An error occurred during Facebook login",
         variant: "destructive",
       })
     } finally {
@@ -205,9 +201,9 @@ export default function LoginPage() {
             <CardDescription>Choose your preferred login method</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-1">
               <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={isLoading}>
-                <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                <svg className="mr-2 h-4 w-8" viewBox="0 0 24 24">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                     fill="#4285F4"
@@ -226,10 +222,6 @@ export default function LoginPage() {
                   />
                 </svg>
                 Google
-              </Button>
-              <Button variant="outline" className="w-full" onClick={handleFacebookLogin} disabled={isLoading}>
-                <Facebook className="mr-2 h-4 w-4 text-blue-600" />
-                Facebook
               </Button>
             </div>
 

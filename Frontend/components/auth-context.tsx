@@ -102,9 +102,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const provider = user.providerData[0]?.providerId || "unknown"
         const providerName = provider.includes("google")
           ? "google"
-          : provider.includes("facebook")
-            ? "facebook"
-            : "email"
+          : "email"
 
         const newProfile: UserProfile = {
           uid: user.uid,

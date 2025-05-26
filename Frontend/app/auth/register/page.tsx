@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { LineChart, Facebook } from "lucide-react"
+import { LineChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -21,13 +21,13 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  FacebookAuthProvider,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth"
 
 // Add this import at the top
 import { setCookie } from "cookies-next"
+import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
 
 // Firebase configuration
 const firebaseConfig = {
@@ -43,7 +43,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
-const facebookProvider = new FacebookAuthProvider()
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -80,6 +79,7 @@ export default function RegisterPage() {
     }
   }, [user, loading, router])
 
+  const db = getFirestore(app)
   // Update handleRegister
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -145,12 +145,12 @@ export default function RegisterPage() {
       let result
       if (provider === "google") {
         result = await signInWithPopup(auth, googleProvider)
-      } else if (provider === "facebook") {
-        result = await signInWithPopup(auth, facebookProvider)
       }
-
-      // Set a cookie to help with authentication state
       if (result && result.user) {
+        const email = result.user.email
+        const uid = result.user.uid
+        const ok = await checkAndHandleDuplicateEmail(email, uid)
+        if (!ok) return
         const token = await result.user.getIdToken()
         setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
       }
@@ -208,7 +208,7 @@ export default function RegisterPage() {
             <CardDescription>Choose how you want to create your account</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-1">
               <Button
                 variant="outline"
                 className="w-full"
@@ -234,15 +234,6 @@ export default function RegisterPage() {
                   />
                 </svg>
                 Google
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => handleSocialSignup("facebook")}
-                disabled={isLoading}
-              >
-                <Facebook className="mr-2 h-4 w-4 text-blue-600" />
-                Facebook
               </Button>
             </div>
 
@@ -355,4 +346,33 @@ export default function RegisterPage() {
       </div>
     </div>
   )
+}
+
+const checkAndHandleDuplicateEmail = async (email: string|null, currentUid: string|null) => {
+  if (!email || !currentUid) return false;
+  const db = getFirestore(app);
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  let oldestProfile: { createdAt: string } | null = null;
+  let oldestUid: string | null = null;
+  let duplicateUids: string[] = [];
+  querySnapshot.forEach((docSnap) => {
+    const data = docSnap.data() as { createdAt: string };
+    if (!oldestProfile || new Date(data.createdAt) < new Date(oldestProfile.createdAt)) {
+      oldestProfile = data;
+      oldestUid = docSnap.id;
+    }
+    if (docSnap.id !== currentUid) {
+      duplicateUids.push(docSnap.id);
+    }
+  });
+  for (const uid of duplicateUids) {
+    await deleteDoc(doc(db, "users", uid));
+  }
+  if (oldestUid && oldestUid !== currentUid) {
+    window.location.href = `/profile?uid=${oldestUid}`;
+    return false;
+  }
+  return true;
 }
