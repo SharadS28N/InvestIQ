@@ -13,6 +13,8 @@ import {
   Zap,
   Lock,
   Sparkles,
+  Section,
+  Divide,
 } from "lucide-react"
 import { getUserData } from './getUsers'
 
@@ -453,7 +455,7 @@ export default async function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+     <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">

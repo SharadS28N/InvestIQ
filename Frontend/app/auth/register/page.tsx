@@ -105,27 +105,21 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 
-      // Update profile with name
       await updateProfile(userCredential.user, {
         displayName: `${firstName} ${lastName}`,
       })
 
-      // Set a cookie to help with authentication state
       const token = await userCredential.user.getIdToken()
-      setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
+      setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 })
 
       toast({
         title: "Account created successfully",
         description: "Welcome to InvestIQ!",
       })
 
-      // Add explicit redirection to profile setup
-      const profileSetupUrl = new URL("/profile-setup", window.location.origin)
-      profileSetupUrl.searchParams.set("noRedirect", "true")
-      window.location.href = profileSetupUrl.toString()
+      router.push("/profile-setup")
     } catch (error: any) {
       toast({
         title: "Registration failed",
@@ -152,7 +146,7 @@ export default function RegisterPage() {
         const ok = await checkAndHandleDuplicateEmail(email, uid)
         if (!ok) return
         const token = await result.user.getIdToken()
-        setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 }) // 7 days
+        setCookie("firebaseToken", token, { maxAge: 60 * 60 * 24 * 7 })
       }
 
       toast({
@@ -160,10 +154,7 @@ export default function RegisterPage() {
         description: "Welcome to InvestIQ!",
       })
 
-      // Add explicit redirection
-      const dashboardUrl = new URL("/dashboard", window.location.origin)
-      dashboardUrl.searchParams.set("noRedirect", "true")
-      window.location.href = dashboardUrl.toString()
+      router.push("/dashboard")
     } catch (error: any) {
       toast({
         title: "Signup failed",

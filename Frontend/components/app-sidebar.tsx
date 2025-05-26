@@ -44,7 +44,7 @@ export function AppSidebar() {
         description: "You have been logged out of your account.",
       })
       // Force navigation to login page
-      window.location.href = "/auth/login"
+      window.location.href = "/landing"
     } catch (error) {
       console.error("Logout error:", error)
       toast({
@@ -76,11 +76,13 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <div className="rounded-md bg-primary p-1">
-            <LineChart className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <div className="font-semibold text-xl text-primary">InvestIQ</div>
+        <div className="flex items-center justify-between gap-2">
+          <Link href="/landing" className="flex items-center gap-2">
+            <div className="rounded-md bg-primary p-1">
+              <LineChart className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <div className="font-semibold text-xl text-primary">InvestIQ</div>
+          </Link>
         </div>
         <div className="text-xs text-muted-foreground">Invest Smarter, Grow Better</div>
       </SidebarHeader>
