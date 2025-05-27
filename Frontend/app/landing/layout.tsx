@@ -1,7 +1,7 @@
 import type React from "react"
 import Link from "next/link"
 import { LineChart } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ClientAuthCheck } from "@/components/client-auth-check"
 
 export default function LandingLayout({
   children,
@@ -12,14 +12,14 @@ export default function LandingLayout({
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/landing" className="flex items-center gap-2">
             <div className="rounded-md bg-primary p-1">
               <LineChart className="h-6 w-6 text-primary-foreground" />
             </div>
-            <Link href="/landing" className="font-semibold text-xl text-primary">
+            <div className="font-semibold text-xl text-primary">
               InvestIQ
-            </Link>
-          </div>
+            </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/features" className="text-sm font-medium hover:underline underline-offset-4">
               Features
@@ -35,13 +35,8 @@ export default function LandingLayout({
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            {/* Removed ThemeToggle */}
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/auth/login">Sign In</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/auth/register">Sign Up</Link>
-            </Button>
+            {/* Client-side auth check */}
+            <ClientAuthCheck />
           </div>
         </div>
       </header>

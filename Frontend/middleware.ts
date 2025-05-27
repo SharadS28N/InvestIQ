@@ -48,10 +48,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 
-  if (isAuthenticated && (path === "/landing" || path === "/")) {
-    console.log("Middleware - Authenticated user at landing page, redirecting to dashboard")
-    return NextResponse.redirect(new URL("/dashboard", request.url))
-  }
+  // Remove the landing page redirection for authenticated users
+  // if (isAuthenticated && (path === "/landing" || path === "/")) {
+  //   console.log("Middleware - Authenticated user at landing page, redirecting to dashboard")
+  //   return NextResponse.redirect(new URL("/dashboard", request.url))
+  // }
 
   return NextResponse.next()
 }
