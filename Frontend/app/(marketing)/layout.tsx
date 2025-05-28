@@ -1,7 +1,7 @@
 import type React from "react"
 import Link from "next/link"
 import { LineChart } from "lucide-react" // or adjust path if using a custom icon
-import { HeaderNav } from "@/components/header-nav"
+import HeaderNav from "@/components/header-nav"
 
 export default function MarketingLayout({
   children,

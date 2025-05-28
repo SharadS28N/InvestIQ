@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { LineChart } from "lucide-react" // adjust the import path if it's a custom icon
-import { HeaderNav } from "@/components/header-nav"
+import HeaderNav from "@/components/header-nav"
 
 export default function LandingLayout({
   children,
