@@ -17,6 +17,7 @@ import {
   Divide,
 } from "lucide-react"
 import { getUserData } from './getUsers'
+import { LandingHeroButtons } from '@/components/landing-hero-buttons'
 
 
 export default async function LandingPage() {
@@ -41,14 +42,7 @@ export default async function LandingPage() {
                 InvestIQ combines artificial intelligence with deep market knowledge to help you make data-driven
                 investment decisions in the Nepal Stock Exchange.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="text-base px-8" asChild>
-                  <Link href="/auth/register">Get Started Free</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="text-base px-8" asChild>
-                  <Link href="/auth/login">Sign In</Link>
-                </Button>
-              </div>
+              <LandingHeroButtons />
               <div className="flex items-center gap-2 pt-4">
                 <div className="flex -space-x-2">
                   {/* Map through profile images */}

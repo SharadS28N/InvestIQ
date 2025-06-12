@@ -93,20 +93,20 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/dashboard">
-                    <Home className="h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <Link href="/dashboard">
+                  <Home className="h-4 w-4" />
+                  <span>Dashboard</span>
+                </Link>
+              </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/portfolio">
-                    <BriefcaseBusiness className="h-4 w-4" />
-                    <span>Portfolio</span>
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <Link href="/portfolio">
+                  <BriefcaseBusiness className="h-4 w-4" />
+                  <span>Portfolio</span>
+                </Link>
+              </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
@@ -117,12 +117,12 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/education">
-                    <BookOpen className="h-4 w-4" />
-                    <span>Learn</span>
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <Link href="/education">
+                  <BookOpen className="h-4 w-4" />
+                  <span>Learn</span>
+                </Link>
+              </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
@@ -133,20 +133,20 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/users">
-                    <Users className="h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <Link href="/users">
+                  <Users className="h-4 w-4" />
+                  <span>Profile</span>
+                </Link>
+              </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/settings">
-                    <Settings className="h-4 w-4" />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <Link href="/settings">
+                  <Settings className="h-4 w-4" />
+                  <span>Settings</span>
+                </Link>
+              </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
