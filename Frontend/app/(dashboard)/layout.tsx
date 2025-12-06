@@ -1,9 +1,12 @@
 import type React from "react"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
+import Link from "next/link"
+import { LineChart } from "lucide-react"
+import { ClientAuthCheck } from "@/components/client-auth-check"
 
 export default async function DashboardLayout({
   children,
@@ -31,7 +34,25 @@ export default async function DashboardLayout({
     <SidebarProvider>
       <div className="flex h-screen">
         <AppSidebar />
-        <main className="flex-1 overflow-auto">{children}</main>
+        <div className="flex-1 flex flex-col">
+          <header className="sticky top-0 z-40 w-full border-b bg-background">
+            <div className="flex h-14 items-center px-4 lg:px-6">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <Link href="/landing" className="hidden md:flex items-center gap-2">
+                  <div className="rounded-md bg-primary p-1">
+                    <LineChart className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <span className="font-semibold text-lg text-primary">InvestIQ</span>
+                </Link>
+              </div>
+              <div className="ml-auto">
+                <ClientAuthCheck />
+              </div>
+            </div>
+          </header>
+          <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
+        </div>
       </div>
       <Toaster />
     </SidebarProvider>

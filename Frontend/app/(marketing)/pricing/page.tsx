@@ -37,8 +37,6 @@ export default function PricingPage() {
         { name: "Real-time alerts", included: true },
         { name: "Priority support", included: true },
         { name: "Custom risk profiles", included: true },
-        { name: "API access", included: false },
-        { name: "Custom reporting", included: false },
       ],
       popular: true,
       buttonText: "Get Started",

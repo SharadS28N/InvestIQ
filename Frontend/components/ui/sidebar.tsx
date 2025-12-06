@@ -204,6 +204,7 @@ const Sidebar = React.forwardRef<
                 "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
               } as React.CSSProperties
             }
+            aria-label="Dashboard Navigation"
             side={side}
           >
             <div className="flex h-full w-full flex-col">{children}</div>
@@ -439,7 +440,7 @@ const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium md:text-sidebar-foreground/70 text-sidebar-foreground outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className
       )}
@@ -554,7 +555,7 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
-    const { isMobile, state } = useSidebar()
+    const { isMobile, state, setOpenMobile } = useSidebar()
 
     const button = (
       <Comp
@@ -562,7 +563,15 @@ const SidebarMenuButton = React.forwardRef<
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+        className={cn(sidebarMenuButtonVariants({ variant, size }), isMobile ? "text-sidebar-foreground" : "", className)}
+        onClick={(event) => {
+          if (props && typeof props.onClick === "function") {
+            props.onClick(event as unknown as React.MouseEvent<HTMLButtonElement>)
+          }
+          if (isMobile) {
+            setOpenMobile(false)
+          }
+        }}
         {...props}
       />
     )

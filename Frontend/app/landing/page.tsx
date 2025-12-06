@@ -221,15 +221,15 @@ export default async function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Free Plan */}
+            {/* Basic Plan */}
             <Card className="bg-white border-2 dark:bg-gray-800 dark:border-gray-700">
               <CardContent className="p-6">
                 <div className="flex flex-col h-full">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 dark:text-white">Free</h3>
-                    <p className="text-gray-500 mb-4 dark:text-gray-300">Get started with basic features</p>
+                    <h3 className="text-xl font-bold mb-2 dark:text-white">Basic</h3>
+                    <p className="text-gray-500 mb-4 dark:text-gray-300">Essential features for new investors</p>
                     <div className="flex items-baseline mb-6">
-                      <span className="text-4xl font-bold dark:text-white">NPR 0</span>
+                      <span className="text-4xl font-bold dark:text-white">NPR 499</span>
                       <span className="text-gray-500 ml-2 dark:text-gray-300">/month</span>
                     </div>
                   </div>
@@ -237,11 +237,15 @@ export default async function LandingPage() {
                   <div className="space-y-3 mb-6 flex-grow">
                     <div className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 dark:text-green-400" />
-                      <span className="dark:text-white">Basic portfolio tracking</span>
+                      <span className="dark:text-white">Portfolio tracking</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 dark:text-green-400" />
-                      <span className="dark:text-white">Limited market data</span>
+                      <span className="dark:text-white">Basic AI insights</span>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 dark:text-green-400" />
+                      <span className="dark:text-white">Market data access</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 dark:text-green-400" />
@@ -249,7 +253,7 @@ export default async function LandingPage() {
                     </div>
                     <div className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 dark:text-green-400" />
-                      <span className="dark:text-white">2 AI insight per day</span>
+                      <span className="dark:text-white">Email Support</span>
                     </div>
                     <div className="flex items-center text-gray-400 dark:text-gray-600">
                       <Lock className="h-5 w-5 mr-2 flex-shrink-0" />
@@ -258,6 +262,10 @@ export default async function LandingPage() {
                     <div className="flex items-center text-gray-400 dark:text-gray-600">
                       <Lock className="h-5 w-5 mr-2 flex-shrink-0" />
                       <span className="dark:text-white">Advanced AI recommendations</span>
+                    </div>
+                    <div className="flex items-center text-gray-400 dark:text-gray-600">
+                      <Lock className="h-5 w-5 mr-2 flex-shrink-0" />
+                      <span className="dark:text-white">Real-time alert</span>
                     </div>
                   </div>
 
@@ -277,9 +285,9 @@ export default async function LandingPage() {
                 <div className="flex flex-col h-full">
                   <div>
                     <h3 className="text-xl font-bold mb-2 dark:text-white">Pro</h3>
-                    <p className="text-gray-500 mb-4 dark:text-gray-300">For serious investors</p>
+                    <p className="text-gray-500 mb-4 dark:text-gray-300">For Serious Investors</p>
                     <div className="flex items-baseline mb-6">
-                      <span className="text-4xl font-bold text-gray-900 dark:text-white">NPR 499</span>
+                      <span className="text-4xl font-bold text-gray-900 dark:text-white">NPR 1,999</span>
                       <span className="text-gray-500 ml-2 dark:text-gray-400">/month</span>
                     </div>
                   </div>

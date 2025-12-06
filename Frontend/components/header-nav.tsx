@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LineChart, Menu } from "lucide-react";
 import { ClientAuthCheck } from "@/components/client-auth-check";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "./ui/sheet";
 
 function HeaderNav() {
   return (
@@ -17,20 +17,28 @@ function HeaderNav() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px] h-full flex items-center justify-center">
+            <SheetContent side="left" className="w-[300px] sm:w-[400px] h-full flex items-center justify-center" aria-label="Navigation Menu">
               <nav className="flex flex-col gap-4 items-center text-center">
-                <Link href="/features" className="text-sm font-medium hover:underline underline-offset-4">
-                  Features
-                </Link>
-                <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
-                  Pricing
-                </Link>
-                <Link href="/about" className="text-sm font-medium hover:underline underline-offset-4">
-                  About
-                </Link>
-                <Link href="/contact" className="text-sm font-medium hover:underline underline-offset-4">
-                  Contact
-                </Link>
+                <SheetClose asChild>
+                  <Link href="/features" className="text-sm font-medium hover:underline underline-offset-4">
+                    Features
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
+                    Pricing
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="/about" className="text-sm font-medium hover:underline underline-offset-4">
+                    About
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="/contact" className="text-sm font-medium hover:underline underline-offset-4">
+                    Contact
+                  </Link>
+                </SheetClose>
               </nav>
             </SheetContent>
           </Sheet>
