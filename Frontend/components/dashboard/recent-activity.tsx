@@ -4,9 +4,44 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, XCircle, AlertCircle, Clock } from "lucide-react"
 
+type BuyActivity = {
+  type: "buy"
+  symbol: string
+  quantity: number
+  price: number
+  total: number
+  time: string
+  status: "completed" | "pending" | "rejected"
+}
+type SellActivity = {
+  type: "sell"
+  symbol: string
+  quantity: number
+  price: number
+  total: number
+  time: string
+  status: "completed" | "pending" | "rejected"
+}
+type DividendActivity = {
+  type: "dividend"
+  symbol: string
+  amount: number
+  time: string
+  status: "completed" | "pending" | "rejected"
+}
+type AISuggestionActivity = {
+  type: "ai_suggestion"
+  symbol: string
+  action: "buy" | "sell"
+  confidence: number
+  time: string
+  status: "completed" | "pending" | "rejected"
+}
+type Activity = BuyActivity | SellActivity | DividendActivity | AISuggestionActivity
+
 export function RecentActivity() {
-  // This would be fetched from your backend in a real application
-  const activityData = [
+
+  const activityData: Activity[] = [
     {
       type: "buy",
       symbol: "NABIL",
@@ -50,7 +85,7 @@ export function RecentActivity() {
     },
   ]
 
-  const getActivityIcon = (activity) => {
+  const getActivityIcon = (activity: Activity) => {
     if (activity.status === "completed") {
       return <CheckCircle2 className="h-4 w-4 text-green-500" />
     } else if (activity.status === "rejected") {
@@ -62,7 +97,7 @@ export function RecentActivity() {
     }
   }
 
-  const getActivityDescription = (activity) => {
+  const getActivityDescription = (activity: Activity) => {
     if (activity.type === "buy") {
       return `Bought ${activity.quantity} shares of ${activity.symbol} at NPR ${activity.price}`
     } else if (activity.type === "sell") {
@@ -101,7 +136,7 @@ export function RecentActivity() {
                 <p className="text-sm text-muted-foreground">{getActivityDescription(activity)}</p>
                 <div className="text-xs text-muted-foreground mt-1">{activity.time}</div>
               </div>
-              {(activity.type === "buy" || activity.type === "sell") && (
+              {isTradeActivity(activity) && (
                 <div className="text-right">
                   <div className="font-medium">NPR {activity.total.toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground">
@@ -115,4 +150,8 @@ export function RecentActivity() {
       </CardContent>
     </Card>
   )
+}
+
+function isTradeActivity(activity: Activity): activity is BuyActivity | SellActivity {
+  return activity.type === "buy" || activity.type === "sell"
 }

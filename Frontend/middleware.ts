@@ -60,6 +60,6 @@ export function middleware(request: NextRequest) {
 // ✅ Updated matcher to exclude public assets like /about-us/*
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/|about-us/).*)",
+    "/((?!_next/|favicon.ico|api/|about-us/|__nextjs|_vercel).*)",
   ],
 }

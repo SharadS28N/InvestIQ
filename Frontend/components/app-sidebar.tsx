@@ -118,6 +118,14 @@ export function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                  <Link href="/nepse-chart">
+                    <LineChart className="h-4 w-4" />
+                    <span>NEPSE Chart</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
                 <Link href="/education">
                   <BookOpen className="h-4 w-4" />
                   <span>Learn</span>
