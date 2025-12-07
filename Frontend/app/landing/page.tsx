@@ -18,10 +18,13 @@ import {
 } from "lucide-react"
 import { getUserData } from './getUsers'
 import { LandingHeroButtons } from '@/components/landing-hero-buttons'
+import { cookies } from "next/headers"
 
 
 export default async function LandingPage() {
   const { userCount, profileImages } = await getUserData()
+  const token = cookies().get("firebaseToken")?.value
+  const isSignedIn = Boolean(token)
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -208,6 +211,7 @@ export default async function LandingPage() {
       </section>
 
       {/* Freemium Section */}
+      {!isSignedIn && (
       <section className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
@@ -374,6 +378,7 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Why Choose Us */}
       <section className="py-20 bg-white dark:bg-gray-900">
@@ -457,6 +462,7 @@ export default async function LandingPage() {
       </section>
 
       {/* CTA Section */}
+      {!isSignedIn && (
      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -486,6 +492,7 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
+      )}
     </div>
   )
 }
