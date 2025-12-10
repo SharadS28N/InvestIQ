@@ -6,14 +6,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowUpRight, ArrowDownRight, TrendingUp, Lightbulb, RefreshCw } from "lucide-react"
-import { PortfolioSummary } from "@/components/dashboard/portfolio-summary"
-import { AIInsights } from "@/components/dashboard/ai-insights"
-import { MarketOverview } from "@/components/dashboard/market-overview"
-import { WatchlistTable } from "@/components/dashboard/watchlist-table"
-import NewsFeed from '@/components/dashboard/news-feed';
-import { RecentActivity } from "@/components/dashboard/recent-activity"
+import dynamic from "next/dynamic"
 import { useAuth } from "@/components/auth-context"
 import { useRouter } from "next/navigation"
+
+// Dynamically load heavy dashboard components on client only for faster SSR and better mobile performance
+const PortfolioSummary = dynamic(() => import("@/components/dashboard/portfolio-summary").then(mod => mod.PortfolioSummary), { ssr: false, loading: () => <div className="p-4">Loading portfolio...</div> })
+const AIInsights = dynamic(() => import("@/components/dashboard/ai-insights").then(mod => mod.AIInsights), { ssr: false, loading: () => <div className="p-4">Loading AI insights...</div> })
+const MarketOverview = dynamic(() => import("@/components/dashboard/market-overview").then(mod => mod.MarketOverview), { ssr: false, loading: () => <div className="p-4">Loading market data...</div> })
+const WatchlistTable = dynamic(() => import("@/components/dashboard/watchlist-table").then(mod => mod.WatchlistTable), { ssr: false, loading: () => <div className="p-4">Loading watchlist...</div> })
+const NewsFeed = dynamic(() => import("@/components/dashboard/news-feed"), { ssr: false, loading: () => <div className="p-4">Loading news...</div> })
+const RecentActivity = dynamic(() => import("@/components/dashboard/recent-activity").then(mod => mod.RecentActivity), { ssr: false, loading: () => <div className="p-4">Loading activity...</div> })
 
 export default function Dashboard() {
   const { user, userProfile, loading } = useAuth()
@@ -84,7 +87,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
@@ -103,7 +106,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
@@ -182,7 +185,7 @@ export default function Dashboard() {
       </div>
 
       <Tabs defaultValue="portfolio" className="w-full">
-        <TabsList>
+        <TabsList className="w-full flex overflow-x-auto gap-2 sm:grid sm:grid-cols-5">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           <TabsTrigger value="market">Market</TabsTrigger>
           <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
@@ -211,8 +214,8 @@ export default function Dashboard() {
         </TabsContent>
       </Tabs>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>Watchlist</CardTitle>

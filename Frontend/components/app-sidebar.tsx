@@ -74,7 +74,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="offcanvas" side="left">
       <SidebarHeader className="p-4">
         <div className="flex items-center justify-between gap-2">
           <Link href="/landing" className="flex items-center gap-2">
@@ -93,15 +93,15 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
-                <Link href="/dashboard">
-                  <Home className="h-4 w-4" />
-                  <span>Dashboard</span>
-                </Link>
-              </SidebarMenuButton>
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
+                  <Link href="/dashboard">
+                    <Home className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                 <Link href="/portfolio">
                   <BriefcaseBusiness className="h-4 w-4" />
                   <span>Portfolio</span>
@@ -109,7 +109,7 @@ export function AppSidebar() {
               </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                   <Link href="/ai-insights">
                     <MessageSquareText className="h-4 w-4" />
                     <span>AI Insights</span>
@@ -117,7 +117,7 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                   <Link href="/nepse-chart">
                     <LineChart className="h-4 w-4" />
                     <span>NEPSE Chart</span>
@@ -125,7 +125,7 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                 <Link href="/education">
                   <BookOpen className="h-4 w-4" />
                   <span>Learn</span>
@@ -141,7 +141,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                 <Link href="/users">
                   <Users className="h-4 w-4" />
                   <span>Profile</span>
@@ -149,7 +149,7 @@ export function AppSidebar() {
               </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
+                <SidebarMenuButton asChild className="transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:bg-primary hover:text-primary-foreground">
                 <Link href="/settings">
                   <Settings className="h-4 w-4" />
                   <span>Settings</span>

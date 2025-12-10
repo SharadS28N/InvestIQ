@@ -13,32 +13,32 @@ import {
   Zap,
   Lock,
   Sparkles,
-  Section,
-  Divide,
 } from "lucide-react"
 import { getUserData } from './getUsers'
 import { LandingHeroButtons } from '@/components/landing-hero-buttons'
+import DynamicPortfolioPreview from "@/components/landing/dynamic-portfolio-preview"
 import { cookies } from "next/headers"
 
 
 export default async function LandingPage() {
   const { userCount, profileImages } = await getUserData()
-  const token = cookies().get("firebaseToken")?.value
+  const cookieStore = await cookies()
+  const token = cookieStore.get("firebaseToken")?.value
   const isSignedIn = Boolean(token)
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-svh">
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
+      <section className="relative py-16 md:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-support2 via-white to-brand-support1 dark:via-gray-900 dark:to-gray-950 z-0"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-5 z-0"></div>
 
-        <div className="container relative z-10 px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 w-full px-4 md:px-6 max-w-none">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="flex flex-col space-y-6">
               <Badge className="w-fit bg-primary/10 text-primary border-primary/20 py-1.5 px-4 text-sm dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40">
                 AI-Powered Investment Platform
               </Badge>
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
                 Invest Smarter, <span className="text-primary dark:text-primary-foreground">Grow Better</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-lg dark:text-gray-300">
@@ -49,7 +49,7 @@ export default async function LandingPage() {
               <div className="flex items-center gap-2 pt-4">
                 <div className="flex -space-x-2">
                   {/* Map through profile images */}
-                  {profileImages.map((image, index) => (
+                  {(profileImages || []).map((image, index) => (
                     <div
                       key={index}
                       className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden"
@@ -69,86 +69,7 @@ export default async function LandingPage() {
             </div>
 
             <div className="relative">
-              <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl dark:bg-primary/20"></div>
-              <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-brand-accent1/5 rounded-full blur-3xl dark:bg-brand-accent1/20"></div>
-
-              <div className="relative bg-white border rounded-2xl shadow-xl overflow-hidden dark:bg-gray-900 dark:border-gray-800">
-                <div className="p-4 border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flex items-center gap-2">
-                    <div className="rounded-md bg-primary p-1">
-                      <LineChart className="h-5 w-5 text-white dark:text-primary-200" />
-                    </div>
-                    <div className="font-semibold text-lg dark:text-white">Portfolio Overview</div>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-gray-50 p-4 rounded-lg dark:bg-gray-800">
-                      <div className="text-sm text-gray-500 dark:text-gray-300">Total Value</div>
-                      <div className="text-2xl font-bold dark:text-white">NPR 1,245,678</div>
-                      <div className="flex items-center text-green-600 text-sm mt-1 dark:text-green-400">
-                        <TrendingUp className="h-3 w-3 mr-1" />
-                        <span>+6.7%</span>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg dark:bg-gray-800">
-                      <div className="text-sm text-gray-500 dark:text-gray-300">AI Insights</div>
-                      <div className="text-lg font-bold dark:text-white">3 New Recommendations</div>
-                      <div className="text-primary text-sm mt-1 dark:text-primary-300">View all</div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium dark:bg-blue-900 dark:text-blue-200">
-                          N
-                        </div>
-                        <div>
-                          <div className="font-medium dark:text-white">NABIL</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Nabil Bank</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium">NPR 1,250</div>
-                        <div className="text-xs text-green-600">+2.5%</div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-medium dark:bg-green-900 dark:text-green-200">
-                          U
-                        </div>
-                        <div>
-                          <div className="font-medium dark:text-white">UPPER</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Upper Tamakoshi</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium">NPR 340</div>
-                        <div className="text-xs text-red-600">-0.8%</div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-medium dark:bg-purple-900 dark:text-purple-200">
-                          C
-                        </div>
-                        <div>
-                          <div className="font-medium dark:text-white">CHCL</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Chilime Hydropower</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium">NPR 520</div>
-                        <div className="text-xs text-red-600">-1.2%</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <DynamicPortfolioPreview />
             </div>
           </div>
         </div>
@@ -156,7 +77,7 @@ export default async function LandingPage() {
 
       {/* Features Section */}
       <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container px-4 md:px-6">
+        <div className="w-full px-4 md:px-6 max-w-none">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <Badge className="bg-primary/10 text-primary border-primary/20 py-1 px-3 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40">Powerful Features</Badge>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl dark:text-white">
@@ -167,7 +88,7 @@ export default async function LandingPage() {
             </p>
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 lg:gap-12">
-            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800">
+            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center space-y-4 text-center">
                   <div className="rounded-full bg-primary/10 p-3 dark:bg-primary/20">
@@ -180,7 +101,7 @@ export default async function LandingPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800">
+            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center space-y-4 text-center">
                   <div className="rounded-full bg-primary/10 p-3 dark:bg-primary/20">
@@ -193,7 +114,7 @@ export default async function LandingPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800">
+            <Card className="bg-white border-2 border-muted dark:bg-gray-900 dark:border-gray-800 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center space-y-4 text-center">
                   <div className="rounded-full bg-primary/10 p-3 dark:bg-primary/20">
@@ -212,7 +133,7 @@ export default async function LandingPage() {
 
       {/* Freemium Section */}
       {!isSignedIn && (
-      <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <Badge className="bg-primary/10 text-primary border-primary/20 py-1 px-3 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40">Pricing Plans</Badge>
@@ -224,9 +145,9 @@ export default async function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-none">
             {/* Basic Plan */}
-            <Card className="bg-white border-2 dark:bg-gray-800 dark:border-gray-700">
+            <Card className="bg-white border-2 dark:bg-gray-800 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <CardContent className="p-6">
                 <div className="flex flex-col h-full">
                   <div>
@@ -281,7 +202,7 @@ export default async function LandingPage() {
             </Card>
 
             {/* Pro Plan */}
-            <Card className="bg-white border-2 border-primary relative dark:bg-gray-800 dark:border-primary">
+            <Card className="bg-white border-2 border-primary relative dark:bg-gray-800 dark:border-primary transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                 <Badge className="bg-primary dark:bg-primary-700">Most Popular</Badge>
               </div>
@@ -331,7 +252,7 @@ export default async function LandingPage() {
             </Card>
 
             {/* Enterprise Plan */}
-            <Card className="bg-white border-2 dark:bg-gray-800 dark:border-gray-700">
+            <Card className="bg-white border-2 dark:bg-gray-800 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
               <CardContent className="p-6">
                 <div className="flex flex-col h-full">
                   <div>
@@ -382,7 +303,7 @@ export default async function LandingPage() {
 
       {/* Why Choose Us */}
       <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container px-4 md:px-6">
+        <div className="w-full px-4 md:px-6 max-w-none">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 py-1 px-3 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40">Why Choose InvestIQ</Badge>
@@ -435,7 +356,7 @@ export default async function LandingPage() {
             <div className="relative">
               <div className="absolute -z-10 -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl dark:bg-primary/20"></div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-xl p-6 shadow-sm dark:bg-gray-800">
                   <div className="text-4xl font-bold text-primary mb-2 dark:text-primary-400">78%</div>
                   <div className="text-gray-600 dark:text-gray-300">Accuracy in buy recommendations</div>
@@ -463,8 +384,8 @@ export default async function LandingPage() {
 
       {/* CTA Section */}
       {!isSignedIn && (
-     <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container px-4 md:px-6">
+     <section className="py-12 md:py-16 bg-primary text-primary-foreground">
+        <div className="w-full px-4 md:px-6 max-w-none">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">

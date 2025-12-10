@@ -9,9 +9,9 @@ export default function LandingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-svh flex-col">
       <HeaderNav />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 p-4 sm:p-6">{children}</main>
       <footer className="border-t py-6 md:py-10">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-2">

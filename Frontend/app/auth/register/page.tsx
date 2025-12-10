@@ -16,32 +16,13 @@ import { useToast } from "@/components/ui/use-toast"
 import { useAuth } from "@/components/auth-context"
 
 // Import Firebase
-import { initializeApp } from "firebase/app"
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  updateProfile,
-} from "firebase/auth"
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth"
 
 // Add this import at the top
 import { setCookie } from "cookies-next"
-import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
+import { auth, db } from "@/lib/firebase"
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
 
 export default function RegisterPage() {
@@ -79,7 +60,7 @@ export default function RegisterPage() {
     }
   }, [user, loading, router])
 
-  const db = getFirestore(app)
+  
   // Update handleRegister
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -156,9 +137,13 @@ export default function RegisterPage() {
 
       router.push("/dashboard")
     } catch (error: any) {
+      const code = error?.code
+      const isUnauthorized = code === "auth/unauthorized-domain"
       toast({
-        title: "Signup failed",
-        description: error.message || "An error occurred during signup.",
+        title: isUnauthorized ? "Unauthorized domain" : "Signup failed",
+        description: isUnauthorized
+          ? `Add this origin to Firebase Auth authorized domains: ${window.location.origin}`
+          : (error.message || "An error occurred during signup."),
         variant: "destructive",
       })
     } finally {
@@ -341,7 +326,6 @@ export default function RegisterPage() {
 
 const checkAndHandleDuplicateEmail = async (email: string|null, currentUid: string|null) => {
   if (!email || !currentUid) return false;
-  const db = getFirestore(app);
   const usersRef = collection(db, "users");
   const q = query(usersRef, where("email", "==", email));
   const querySnapshot = await getDocs(q);
