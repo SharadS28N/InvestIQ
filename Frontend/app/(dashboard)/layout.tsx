@@ -31,8 +31,8 @@ export default async function DashboardLayout({
   }
 
   return (
-    <SidebarProvider>
-      <div className="flex h-screen">
+    <SidebarProvider defaultOpen={false}>
+      <div className="flex min-h-svh">
         <AppSidebar />
         <div className="flex-1 flex flex-col">
           <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -46,7 +46,7 @@ export default async function DashboardLayout({
                   <span className="font-semibold text-lg text-primary">InvestIQ</span>
                 </Link>
               </div>
-              <div className="ml-auto">
+              <div className="ml-auto hidden md:block">
                 <ClientAuthCheck />
               </div>
             </div>

@@ -18,28 +18,10 @@ import { useAuth } from "@/components/auth-context"
 import { setCookie } from "cookies-next"
 
 // Import Firebase
-import { initializeApp } from "firebase/app"
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-} from "firebase/auth"
-import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"
+import { auth, db } from "@/lib/firebase"
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
 
 export default function LoginPage() {
@@ -73,7 +55,6 @@ export default function LoginPage() {
   // Update the handleGoogleLogin function
   const checkAndHandleDuplicateEmail = async (email: string|null, currentUid: string|null) => {
     if (!email || !currentUid) return false;
-    const db = getFirestore(app);
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", email));
     const querySnapshot = await getDocs(q);
@@ -123,9 +104,13 @@ export default function LoginPage() {
       window.location.href = dashboardUrl.toString()
     } catch (error: any) {
       console.error("Google login error:", error)
+      const code = error?.code
+      const isUnauthorized = code === "auth/unauthorized-domain"
       toast({
-        title: "Login failed",
-        description: error.message || "An error occurred during Google login",
+        title: isUnauthorized ? "Unauthorized domain" : "Login failed",
+        description: isUnauthorized
+          ? `Add this origin to Firebase Auth authorized domains: ${window.location.origin}`
+          : (error.message || "An error occurred during Google login"),
         variant: "destructive",
       })
     } finally {
@@ -158,9 +143,13 @@ export default function LoginPage() {
       window.location.href = dashboardUrl.toString()
     } catch (error: any) {
       console.error("Email login error:", error)
+      const code = error?.code
+      const isUnauthorized = code === "auth/unauthorized-domain"
       toast({
-        title: "Login failed",
-        description: error.message || "Invalid email or password",
+        title: isUnauthorized ? "Unauthorized domain" : "Login failed",
+        description: isUnauthorized
+          ? `Add this origin to Firebase Auth authorized domains: ${window.location.origin}`
+          : (error.message || "Invalid email or password"),
         variant: "destructive",
       })
     } finally {
