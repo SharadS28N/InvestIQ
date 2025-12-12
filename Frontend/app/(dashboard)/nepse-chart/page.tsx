@@ -20,12 +20,17 @@ import {
   Bar,
   ComposedChart,
   Tooltip as ReTooltip,
+  ReferenceLine,
+  Brush,
 } from "recharts"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
+import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command"
 
 type DataPoint = {
   date: string
@@ -58,6 +63,11 @@ export default function NepseChartPage() {
   const [loadingCandles, setLoadingCandles] = useState(false)
   const [errorCandles, setErrorCandles] = useState<string | null>(null)
   const [tf, setTf] = useState<"DAILY" | "5MIN" | "15MIN" | "30MIN">("DAILY")
+  const [lastUpdated, setLastUpdated] = useState<number | null>(null)
+  const [barW, setBarW] = useState<number>(8)
+  const [showPriceLabel, setShowPriceLabel] = useState<boolean>(true)
+  const [showMA20, setShowMA20] = useState<boolean>(true)
+  const [showMA50, setShowMA50] = useState<boolean>(true)
 
   const data = useMemo(() => {
     if (!candles.length) return [] as DataPoint[]
@@ -115,6 +125,7 @@ export default function NepseChartPage() {
         if (!cancelled) {
           setCandles(cs)
           setErrorCandles(null)
+          setLastUpdated(Date.now())
         }
       } catch (e) {
         if (!cancelled) {
@@ -233,6 +244,10 @@ export default function NepseChartPage() {
     return { bullish, bearish }
   }, [candles])
 
+  const latestClose = useMemo(() => (candles.length ? candles[candles.length - 1].close : undefined), [candles])
+  const latestDate = useMemo(() => (candles.length ? candles[candles.length - 1].date : undefined), [candles])
+  const isFresh = useMemo(() => (lastUpdated ? Date.now() - lastUpdated < 60000 : false), [lastUpdated])
+
   return (
     <div className="max-w-7xl mx-auto w-full flex flex-col gap-4 p-4 sm:p-6">
       <div className="flex items-center justify-between">
@@ -241,33 +256,40 @@ export default function NepseChartPage() {
           <p className="text-muted-foreground">Interactive charts and technical indicators</p>
         </div>
         <div className="flex gap-2">
-          <div className="flex items-center gap-2">
-            <Select value={symbol} onValueChange={setSymbol}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Symbol" />
-              </SelectTrigger>
-              <SelectContent className="max-h-[300px]">
-                {symbols
-                  .filter((s) =>
-                    symbolFilter
-                      ? s.symbol.toLowerCase().includes(symbolFilter.toLowerCase()) ||
-                        (s.name || "").toLowerCase().includes(symbolFilter.toLowerCase())
-                      : true
-                  )
-                  .map((s) => (
-                    <SelectItem key={s.symbol} value={s.symbol}>
-                      {s.symbol} {s.name ? `— ${s.name}` : ""}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            <Input
-              value={symbolFilter}
-              onChange={(e) => setSymbolFilter(e.target.value)}
-              placeholder="Search"
-              className="h-9 w-40"
-            />
-          </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-64 justify-between">
+                {symbol}
+                <span className="text-muted-foreground">Search</span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0 w-80" align="end">
+              <Command>
+                <CommandInput placeholder="Search company or symbol" value={symbolFilter} onValueChange={setSymbolFilter} />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup heading="Symbols">
+                    {symbols
+                      .filter((s) =>
+                        symbolFilter
+                          ? s.symbol.toLowerCase().includes(symbolFilter.toLowerCase()) ||
+                            (s.name || "").toLowerCase().includes(symbolFilter.toLowerCase())
+                          : true
+                      )
+                      .slice(0, 50)
+                      .map((s) => (
+                        <CommandItem key={s.symbol} onSelect={() => { setSymbol(s.symbol); setSymbolFilter(""); }}>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-sm">{s.symbol}</span>
+                            <span className="text-muted-foreground text-xs">{s.name ?? ""}</span>
+                          </div>
+                        </CommandItem>
+                      ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
           {(["1M", "3M", "6M", "1Y", "MAX"] as const).map((r) => (
             <Button
               key={r}
@@ -281,14 +303,38 @@ export default function NepseChartPage() {
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <div className="hidden md:flex flex-col items-center gap-2 w-10">
-          <Button variant="ghost" size="icon" className="h-8 w-8">+</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">T</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">↗</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">⚙</Button>
-        </div>
-        <div className="flex-1 min-w-0">
+      <div className="hidden md:block">
+        <PanelGroup direction="horizontal" className="gap-4">
+          <Panel defaultSize={8} minSize={6}>
+            <div className="flex flex-col items-center gap-2 w-10">
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setBarW((w) => Math.min(18, w + 2))}>+</Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowPriceLabel((v) => !v)}>T</Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setRange("3M")}>↗</Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">⚙</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-44">
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span>Body width</span>
+                      <Input type="number" value={barW} onChange={(e) => setBarW(Number(e.target.value) || 8)} className="h-7 w-16" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Show MA20</span>
+                      <Button variant="outline" size="sm" onClick={() => setShowMA20((v) => !v)}>{showMA20 ? "On" : "Off"}</Button>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Show MA50</span>
+                      <Button variant="outline" size="sm" onClick={() => setShowMA50((v) => !v)}>{showMA50 ? "On" : "Off"}</Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </Panel>
+          <PanelResizeHandle className="w-2 bg-muted" />
+          <Panel defaultSize={60} minSize={40} className="min-w-0">
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="flex-wrap gap-1 overflow-x-auto">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -319,8 +365,12 @@ export default function NepseChartPage() {
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <ChartLegend content={<ChartLegendContent />} />
                     <Line type="monotone" dataKey="index" stroke="var(--color-index)" strokeWidth={2} dot={false} />
-                    <Line type="monotone" dataKey="ma20" stroke="var(--color-ma20)" strokeWidth={1.5} dot={false} />
-                    <Line type="monotone" dataKey="ma50" stroke="var(--color-ma50)" strokeWidth={1.5} dot={false} />
+                    {showMA20 && (
+                      <Line type="monotone" dataKey="ma20" stroke="var(--color-ma20)" strokeWidth={1.5} dot={false} />
+                    )}
+                    {showMA50 && (
+                      <Line type="monotone" dataKey="ma50" stroke="var(--color-ma50)" strokeWidth={1.5} dot={false} />
+                    )}
                   </ReLineChart>
                 </ChartContainer>
               )}
@@ -332,7 +382,15 @@ export default function NepseChartPage() {
           <Card>
             <CardHeader>
               <CardTitle>{symbol} Candlestick</CardTitle>
-              <CardDescription>OHLC with real-time refresh</CardDescription>
+              <CardDescription>
+                OHLC with real-time refresh
+                {latestClose !== undefined && (
+                  <span className="ml-2">
+                    Latest: {latestClose} on {latestDate}
+                    {isFresh ? <Badge className="ml-2">LIVE</Badge> : null}
+                  </span>
+                )}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {loadingCandles && !candles.length ? (
@@ -342,39 +400,59 @@ export default function NepseChartPage() {
               ) : errorCandles && !candles.length ? (
                 <div className="text-sm text-destructive">{errorCandles}</div>
               ) : (
-                <ChartContainer config={config} className="w-full overflow-hidden">
-                  <ComposedChart data={candles} margin={{ left: 12, right: 12 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} domain={["auto", "auto"]} />
+                <PanelGroup direction="vertical" className="h-[420px] sm:h-[560px]">
+                  <Panel defaultSize={70} minSize={50}>
+                    <ChartContainer config={config} className="w-full h-full overflow-hidden aspect-auto">
+                      <ComposedChart data={candles} margin={{ left: 12, right: 12 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} domain={["auto", "auto"]} />
                     <ReTooltip content={<ChartTooltipContent />} />
+                    {latestClose !== undefined && (
+                      <ReferenceLine y={latestClose} stroke="var(--color-index)" strokeDasharray="3 3" />
+                    )}
                     <Bar
                       dataKey="body"
-                      barSize={8}
+                      barSize={barW}
                       shape={(props: any) => {
                         const { x, y, width, height, payload } = props
                         const up = payload.up
                         const body = Math.max(0.0001, Math.abs(payload.close - payload.open))
                         const ppu = height / body
-                        const bodyTopY = y
-                        const bodyBottomY = y + height
-                        const wickTopY = bodyTopY - (payload.high - Math.max(payload.open, payload.close)) * ppu
-                        const wickBottomY = bodyBottomY + (Math.min(payload.open, payload.close) - payload.low) * ppu
-                        const cx = x + width / 2
-                        const bw = Math.max(2, Math.min(width - 2, 8))
-                        const bx = cx - bw / 2
-                        const fill = up ? "var(--color-candleUp)" : "var(--color-candleDown)"
-                        return (
-                          <g>
-                            <line x1={cx} x2={cx} y1={wickTopY} y2={bodyTopY} stroke={fill} strokeWidth={1} />
-                            <line x1={cx} x2={cx} y1={bodyBottomY} y2={wickBottomY} stroke={fill} strokeWidth={1} />
-                            <rect x={bx} y={bodyTopY} width={bw} height={height} fill={fill} opacity={0.8} />
+                            const bodyTopY = y
+                            const bodyBottomY = y + height
+                            const wickTopY = bodyTopY - (payload.high - Math.max(payload.open, payload.close)) * ppu
+                            const wickBottomY = bodyBottomY + (Math.min(payload.open, payload.close) - payload.low) * ppu
+                            const cx = x + width / 2
+                            const bw = Math.max(2, Math.min(width - 2, 8))
+                            const bx = cx - bw / 2
+                            const fill = up ? "var(--color-candleUp)" : "var(--color-candleDown)"
+                            return (
+                              <g>
+                                <line x1={cx} x2={cx} y1={wickTopY} y2={bodyTopY} stroke={fill} strokeWidth={1} />
+                                <line x1={cx} x2={cx} y1={bodyBottomY} y2={wickBottomY} stroke={fill} strokeWidth={1} />
+                            <rect x={bx} y={bodyTopY} width={bw} height={height} fill={fill} opacity={0.9} />
                           </g>
                         )
                       }}
                     />
+                    <Brush dataKey="date" height={24} travellerWidth={12} />
                   </ComposedChart>
                 </ChartContainer>
+              </Panel>
+                  <PanelResizeHandle className="h-2 bg-muted" />
+                  <Panel defaultSize={30} minSize={20}>
+                    <ChartContainer config={config} className="w-full h-full overflow-hidden aspect-auto">
+                      <ReBarChart data={candles} margin={{ left: 12, right: 12 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{ fontSize: 12 }} hide />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="volume" fill="var(--color-volume)" />
+                      </ReBarChart>
+                    </ChartContainer>
+                  </Panel>
+                </PanelGroup>
               )}
             </CardContent>
           </Card>
@@ -464,9 +542,11 @@ export default function NepseChartPage() {
             </Card>
           </div>
         </TabsContent>
-      </Tabs>
-        </div>
-        <div className="w-full md:w-[340px] lg:w-[380px] shrink-0">
+        </Tabs>
+          </Panel>
+          <PanelResizeHandle className="w-2 bg-muted" />
+          <Panel defaultSize={32} minSize={22}>
+            <div className="w-full">
           <Card>
             <CardHeader>
               <CardTitle>Candlesticks</CardTitle>
@@ -504,7 +584,57 @@ export default function NepseChartPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
+            </div>
+          </Panel>
+        </PanelGroup>
+      </div>
+      <div className="md:hidden space-y-4">
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="flex-wrap gap-1 overflow-x-auto">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="candlestick">Candlestick</TabsTrigger>
+            <TabsTrigger value="volume">Volume</TabsTrigger>
+            <TabsTrigger value="indicators">Indicators</TabsTrigger>
+          </TabsList>
+          {/* Existing TabsContent blocks apply for mobile too */}
+        </Tabs>
+        <Card>
+          <CardHeader>
+            <CardTitle>Candlesticks</CardTitle>
+            <CardDescription>Pattern signals</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2 mb-2">
+              {['DAILY','5MIN','15MIN','30MIN'].map((t) => (
+                <Button key={t} size="sm" variant={tf === t ? 'default' : 'outline'} onClick={() => setTf(t as any)}>
+                  {t === 'DAILY' ? 'DAILY' : t.replace('MIN',' MINUTE')}
+                </Button>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              <div>
+                <div className="text-xs font-medium mb-1">Bullish</div>
+                <div className="flex flex-wrap gap-2">
+                  {patterns.bullish.map((p) => (
+                    <Badge key={p.name} className="bg-green-100 text-green-800">
+                      {p.name} <span className="ml-1">{p.count}</span>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="text-xs font-medium mb-1">Bearish</div>
+                <div className="flex flex-wrap gap-2">
+                  {patterns.bearish.map((p) => (
+                    <Badge key={p.name} className="bg-red-100 text-red-800">
+                      {p.name} <span className="ml-1">{p.count}</span>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
