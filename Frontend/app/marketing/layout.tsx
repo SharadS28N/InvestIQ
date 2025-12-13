@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import Link from "next/link"
 import { LineChart } from "lucide-react" // or adjust path if using a custom icon
