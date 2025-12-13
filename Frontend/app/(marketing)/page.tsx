@@ -1,10 +1,12 @@
+"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { LineChart, BarChart3, TrendingUp, Brain, Shield, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react"
+import { ClientAuthCheck } from "@/components/client-auth-check"
 
-export default function LandingPage() {
+function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -401,6 +403,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      <div className="sr-only">
+        <ClientAuthCheck />
+      </div>
     </div>
   )
 }
