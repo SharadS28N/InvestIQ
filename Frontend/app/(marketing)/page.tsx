@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { LineChart, BarChart3, TrendingUp, Brain, Shield, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react"
 import { ClientAuthCheck } from "@/components/client-auth-check"
 
-function LandingPage() {
+export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
