@@ -170,7 +170,7 @@ export default function RegisterPage() {
             <div className="rounded-md bg-primary p-1">
               <LineChart className="h-6 w-6 text-primary-foreground" />
             </div>
-            <Link href="/landing" className="font-semibold text-xl text-primary">
+            <Link href="/" className="font-semibold text-xl text-primary">
               InvestIQ
             </Link>
           </div>

@@ -39,7 +39,7 @@ export default async function DashboardLayout({
             <div className="flex h-14 items-center px-4 lg:px-6">
               <div className="flex items-center gap-2">
                 <SidebarTrigger />
-                <Link href="/landing" className="hidden md:flex items-center gap-2">
+                <Link href="/" className="hidden md:flex items-center gap-2">
                   <div className="rounded-md bg-primary p-1">
                     <LineChart className="h-5 w-5 text-primary-foreground" />
                   </div>

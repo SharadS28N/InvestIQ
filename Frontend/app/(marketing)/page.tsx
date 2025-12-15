@@ -6,33 +6,39 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { LineChart, BarChart3, TrendingUp, Brain, Shield, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react"
 import { ClientAuthCheck } from "@/components/client-auth-check"
+import DynamicPortfolioPreview from "@/components/landing/dynamic-portfolio-preview"
 
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 bg-gradient-to-br from-brand-support2 via-white to-brand-support1">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
+      <section className="relative py-20 md:py-28">
+        <div className="absolute inset-0 bg-background"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10 dark:from-primary/20 dark:to-accent/20"></div>
+        <div className="container px-4 md:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="flex flex-col space-y-6">
+              <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground w-fit">
                 Introducing InvestIQ
               </div>
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter dark:text-white">
                 Invest Smarter, <span className="text-primary">Grow Better</span>
               </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
+              <p className="text-gray-600 md:text-xl max-w-lg dark:text-gray-300">
                 AI-powered stock market platform for the Nepal Stock Exchange (NEPSE) that helps you make data-driven
                 investment decisions.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" asChild>
+                  <Link href="/auth/register">Get Started</Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/auth/login">Sign In</Link>
+                </Button>
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild>
-                <Link href="/auth/register">Get Started</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/auth/login">Sign In</Link>
-              </Button>
+            <div className="relative">
+              <DynamicPortfolioPreview />
             </div>
           </div>
         </div>

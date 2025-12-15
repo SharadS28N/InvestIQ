@@ -44,7 +44,7 @@ export function AppSidebar() {
         description: "You have been logged out of your account.",
       })
       // Force navigation to login page
-      window.location.href = "/landing"
+      window.location.href = "/"
     } catch (error) {
       console.error("Logout error:", error)
       toast({
@@ -77,7 +77,7 @@ export function AppSidebar() {
     <Sidebar variant="floating" collapsible="offcanvas" side="left">
       <SidebarHeader className="p-4">
         <div className="flex items-center justify-between gap-2">
-          <Link href="/landing" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <div className="rounded-md bg-primary p-1">
               <LineChart className="h-6 w-6 text-primary-foreground" />
             </div>
