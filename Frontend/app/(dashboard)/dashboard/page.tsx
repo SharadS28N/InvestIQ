@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowUpRight, ArrowDownRight, TrendingUp, Lightbulb, RefreshCw } from "lucide-react"
@@ -86,10 +89,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex flex-col p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 mx-auto w-full max-w-[640px] sm:max-w-5xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mx-auto w-full max-w-5xl">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
             {getGreeting()}, {getFirstName()}. Here's your investment overview.
           </p>
@@ -106,13 +109,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-12 mx-auto w-full max-w-5xl">
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">NPR {formatCurrency(portfolioData.value)}</div>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold">NPR {formatCurrency(portfolioData.value)}</div>
             <div className="flex items-center mt-1">
               <Badge
                 variant="outline"
@@ -138,11 +141,11 @@ export default function Dashboard() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">Total Gain/Loss</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">+NPR {formatCurrency(portfolioData.gain)}</div>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold text-green-600">+NPR {formatCurrency(portfolioData.gain)}</div>
             <div className="flex items-center mt-1">
               <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1">
                 <TrendingUp className="h-3 w-3" />
@@ -154,11 +157,11 @@ export default function Dashboard() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">NEPSE Index</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{portfolioData.nepseIndex}</div>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold">{portfolioData.nepseIndex}</div>
             <div className="flex items-center mt-1">
               <Badge
                 variant="outline"
@@ -184,8 +187,8 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <Tabs defaultValue="portfolio" className="w-full">
-        <TabsList className="w-full flex overflow-x-auto gap-2 sm:grid sm:grid-cols-5">
+      <Tabs defaultValue="portfolio" className="w-full mx-auto max-w-5xl">
+        <TabsList className="w-full flex overflow-x-auto gap-1 sm:gap-2 sm:grid sm:grid-cols-5">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           <TabsTrigger value="market">Market</TabsTrigger>
           <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
@@ -214,7 +217,7 @@ export default function Dashboard() {
         </TabsContent>
       </Tabs>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-12 mx-auto w-full max-w-5xl">
         <div className="md:col-span-2">
           <Card>
             <CardHeader>

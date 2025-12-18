@@ -1,7 +1,11 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import dynamic from "next/dynamic"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -102,43 +106,43 @@ export default function EducationPage() {
   ]
 
   return (
-    <div className="flex flex-col p-6 space-y-6">
+    <div className="flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 mx-auto w-full max-w-[640px] sm:max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Investor Education</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Investor Education</h1>
           <p className="text-muted-foreground">Learn about investing and the stock market</p>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-2 sm:gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input type="search" placeholder="Search for topics, terms, or concepts..." className="pl-9" />
         </div>
-        <Button className="gap-1">
+        <Button size="sm" className="gap-1">
           <Lightbulb className="h-4 w-4" />
           Ask AI Tutor
         </Button>
       </div>
 
       <Tabs defaultValue="learning-path" className="w-full">
-        <TabsList>
+        <TabsList className="w-full flex overflow-x-auto gap-1 sm:gap-2 sm:grid sm:grid-cols-3">
           <TabsTrigger value="learning-path">Learning Path</TabsTrigger>
           <TabsTrigger value="glossary">Glossary</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
         </TabsList>
 
         <TabsContent value="learning-path" className="mt-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-1 sm:pb-2">
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-primary" />
                   <CardTitle>Beginner</CardTitle>
                 </div>
                 <CardDescription>Fundamental concepts for new investors</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
                 {beginnerTopics.map((topic, index) => (
                   <div key={index} className="border rounded-md p-4 space-y-2">
                     <div className="flex justify-between items-start">
@@ -165,14 +169,14 @@ export default function EducationPage() {
             </Card>
 
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-1 sm:pb-2">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
                   <CardTitle>Intermediate</CardTitle>
                 </div>
                 <CardDescription>Advanced concepts for experienced investors</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
                 {intermediateTopics.map((topic, index) => (
                   <div key={index} className="border rounded-md p-4 space-y-2">
                     <div className="flex justify-between items-start">
@@ -199,14 +203,14 @@ export default function EducationPage() {
             </Card>
 
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-1 sm:pb-2">
                 <div className="flex items-center gap-2">
                   <GraduationCap className="h-5 w-5 text-primary" />
                   <CardTitle>Advanced</CardTitle>
                 </div>
                 <CardDescription>Expert-level strategies and techniques</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
                 {advancedTopics.map((topic, index) => (
                   <div key={index} className="border rounded-md p-4 space-y-2">
                     <div className="flex justify-between items-start">
@@ -236,11 +240,11 @@ export default function EducationPage() {
 
         <TabsContent value="glossary" className="mt-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-1 sm:pb-2">
               <CardTitle>Investment Glossary</CardTitle>
               <CardDescription>Common terms and definitions used in the stock market</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-2 pb-4 sm:p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {glossaryTerms.map((item, index) => (
                   <div key={index} className="border rounded-md p-4">
@@ -255,12 +259,12 @@ export default function EducationPage() {
 
         <TabsContent value="resources" className="mt-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-1 sm:pb-2">
               <CardTitle>Additional Resources</CardTitle>
               <CardDescription>External resources to enhance your investment knowledge</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <CardContent className="pt-2 pb-4 sm:p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 <div className="border rounded-md p-4 space-y-2">
                   <h3 className="font-medium">NEPSE Official Website</h3>
                   <p className="text-sm text-muted-foreground">

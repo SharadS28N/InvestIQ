@@ -1,7 +1,11 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import dynamic from "next/dynamic"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -96,10 +100,10 @@ export default function PortfolioPage() {
   }
 
   return (
-    <div className="flex flex-col p-6 space-y-6">
+    <div className="flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 mx-auto w-full max-w-[640px] sm:max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Portfolio</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Portfolio</h1>
           <p className="text-muted-foreground">{getFirstName()}'s investment portfolio and holdings</p>
         </div>
         <div className="flex items-center gap-2">
@@ -118,13 +122,13 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-12">
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">Total Value</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">NPR {totalValue.toLocaleString()}</div>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold">NPR {totalValue.toLocaleString()}</div>
             <div className="flex items-center mt-1">
               <Badge
                 variant="outline"
@@ -152,11 +156,11 @@ export default function PortfolioPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">Total Profit/Loss</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className={`text-2xl font-bold ${totalProfit >= 0 ? "text-green-600" : "text-red-600"}`}>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className={`text-xl sm:text-2xl font-bold ${totalProfit >= 0 ? "text-green-600" : "text-red-600"}`}>
               {totalProfit >= 0 ? "+" : ""}NPR {totalProfit.toLocaleString()}
             </div>
             <div className="flex items-center mt-1">
@@ -166,11 +170,11 @@ export default function PortfolioPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle className="text-sm font-medium">Holdings</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{portfolioData.length}</div>
+          <CardContent className="pt-2 pb-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold">{portfolioData.length}</div>
             <div className="flex items-center mt-1">
               <span className="text-xs text-muted-foreground">Companies</span>
             </div>
@@ -178,7 +182,7 @@ export default function PortfolioPage() {
         </Card>
       </div>
 
-      <Tabs defaultValue="holdings" className="w-full">
+      <Tabs defaultValue="holdings" className="w-full mx-auto max-w-5xl">
         <TabsList>
           <TabsTrigger value="holdings">Holdings</TabsTrigger>
           <TabsTrigger value="allocation">Allocation</TabsTrigger>
@@ -188,7 +192,8 @@ export default function PortfolioPage() {
         <TabsContent value="holdings" className="mt-4">
           <Card>
             <CardContent className="p-0">
-              <Table>
+              <div className="overflow-x-auto">
+              <Table className="min-w-full">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Symbol</TableHead>
@@ -234,6 +239,7 @@ export default function PortfolioPage() {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -270,7 +276,8 @@ export default function PortfolioPage() {
               <CardDescription>Record of your buy and sell transactions</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <Table>
+              <div className="overflow-x-auto">
+              <Table className="min-w-full">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Date</TableHead>
@@ -304,6 +311,7 @@ export default function PortfolioPage() {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

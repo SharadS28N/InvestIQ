@@ -9,8 +9,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import dynamic from "next/dynamic"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
+const Avatar = dynamic(() => import("@/components/ui/avatar").then(m => m.Avatar), { ssr: false })
+const AvatarFallback = dynamic(() => import("@/components/ui/avatar").then(m => m.AvatarFallback), { ssr: false })
+const AvatarImage = dynamic(() => import("@/components/ui/avatar").then(m => m.AvatarImage), { ssr: false })
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/components/ui/use-toast"
 import { Loader2, User, Phone, Calendar, Shield, LinkIcon } from "lucide-react"
@@ -143,20 +149,20 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-8">
+    <div className="flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 mx-auto w-full max-w-[640px] sm:max-w-5xl">
       <div className="flex flex-col md:flex-row gap-6 items-start">
         {/* Profile Summary Card */}
         <Card className="w-full md:w-1/3">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 sm:pb-2">
             <CardTitle>Profile</CardTitle>
             <CardDescription>Your personal information</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center pt-4 pb-6">
+          <CardContent className="flex flex-col items-center pt-2 pb-4 sm:p-6">
             <Avatar className="h-24 w-24 mb-4">
               <AvatarImage src={userProfile?.photoURL || ""} alt={userProfile?.displayName || "User"} />
               <AvatarFallback className="text-lg">{getInitials(userProfile?.displayName || "User")}</AvatarFallback>
             </Avatar>
-            <h3 className="text-xl font-semibold">{userProfile?.displayName}</h3>
+            <h3 className="text-lg sm:text-xl font-semibold">{userProfile?.displayName}</h3>
             <p className="text-muted-foreground">{userProfile?.email}</p>
 
             <div className="w-full mt-6 space-y-4">
@@ -183,19 +189,19 @@ export default function UsersPage() {
         {/* Main Content */}
         <div className="flex-1">
           <Tabs defaultValue="personal" className="w-full">
-            <TabsList className="mb-4">
+            <TabsList className="mb-4 w-full flex overflow-x-auto gap-1 sm:gap-2 sm:grid sm:grid-cols-2">
               <TabsTrigger value="personal">Personal Info</TabsTrigger>
               <TabsTrigger value="meroshare">Meroshare Data</TabsTrigger>
             </TabsList>
 
             <TabsContent value="personal">
               <Card>
-                <CardHeader>
+                <CardHeader className="pb-1 sm:pb-2">
                   <CardTitle>Personal Information</CardTitle>
                   <CardDescription>Update your personal details</CardDescription>
                 </CardHeader>
                 <form onSubmit={handleSubmit}>
-                  <CardContent className="space-y-4">
+                  <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="firstName">First Name</Label>
@@ -264,7 +270,7 @@ export default function UsersPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button type="submit" disabled={isSubmitting}>
+                    <Button type="submit" size="sm" disabled={isSubmitting}>
                       {isSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -281,11 +287,11 @@ export default function UsersPage() {
 
             <TabsContent value="meroshare">
               <Card>
-                <CardHeader>
+                <CardHeader className="pb-1 sm:pb-2">
                   <CardTitle>Meroshare Information</CardTitle>
                   <CardDescription>Your synced Meroshare account details</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
                   {meroshareData.dpid ? (
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,13 +324,13 @@ export default function UsersPage() {
                       </div>
                     </>
                   ) : (
-                    <div className="py-8 text-center">
+                    <div className="py-6 sm:py-8 text-center">
                       <LinkIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-lg font-medium mb-2">No Meroshare Account Connected</h3>
+                      <h3 className="text-base sm:text-lg font-medium mb-2">No Meroshare Account Connected</h3>
                       <p className="text-muted-foreground mb-4">
                         Connect your Meroshare account to view your portfolio data
                       </p>
-                      <Button>Connect Meroshare</Button>
+                      <Button size="sm">Connect Meroshare</Button>
                     </div>
                   )}
                 </CardContent>

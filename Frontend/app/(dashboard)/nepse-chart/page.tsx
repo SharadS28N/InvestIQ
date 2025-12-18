@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import dynamic from "next/dynamic"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
 import {
   ChartContainer,
   ChartTooltip,
@@ -234,10 +238,10 @@ export default function NepseChartPage() {
   }, [candles])
 
   return (
-    <div className="max-w-7xl mx-auto w-full flex flex-col gap-4 p-4 sm:p-6">
+    <div className="mx-auto w-full flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 max-w-[640px] sm:max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">NEPSE Chart</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">NEPSE Chart</h1>
           <p className="text-muted-foreground">Interactive charts and technical indicators</p>
         </div>
         <div className="flex gap-2">
@@ -290,7 +294,7 @@ export default function NepseChartPage() {
         </div>
         <div className="flex-1 min-w-0">
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="flex-wrap gap-1 overflow-x-auto">
+        <TabsList className="w-full flex overflow-x-auto gap-1 sm:gap-2 sm:grid sm:grid-cols-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="candlestick">Candlestick</TabsTrigger>
           <TabsTrigger value="volume">Volume</TabsTrigger>

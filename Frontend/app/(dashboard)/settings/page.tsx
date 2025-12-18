@@ -3,10 +3,18 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+import dynamic from "next/dynamic"
+const Switch = dynamic(() => import("@/components/ui/switch").then(m => m.Switch), { ssr: false })
 import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+const Tabs = dynamic(() => import("@/components/ui/tabs").then(m => m.Tabs), { ssr: false })
+const TabsContent = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsContent), { ssr: false })
+const TabsList = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsList), { ssr: false })
+const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(m => m.TabsTrigger), { ssr: false })
+const Select = dynamic(() => import("@/components/ui/select").then(m => m.Select), { ssr: false })
+const SelectContent = dynamic(() => import("@/components/ui/select").then(m => m.SelectContent), { ssr: false })
+const SelectItem = dynamic(() => import("@/components/ui/select").then(m => m.SelectItem), { ssr: false })
+const SelectTrigger = dynamic(() => import("@/components/ui/select").then(m => m.SelectTrigger), { ssr: false })
+const SelectValue = dynamic(() => import("@/components/ui/select").then(m => m.SelectValue), { ssr: false })
 import { useAuth } from "@/components/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { setTheme } from "@/lib/theme"
@@ -104,14 +112,14 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="flex flex-col p-6 space-y-6">
+    <div className="flex flex-col p-4 sm:p-6 space-y-4 sm:space-y-6 mx-auto w-full max-w-[640px] sm:max-w-5xl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground">Manage your account settings and preferences</p>
       </div>
 
-      <Tabs defaultValue="notifications" className="w-full max-w-4xl">
-        <TabsList>
+      <Tabs defaultValue="notifications" className="w-full">
+        <TabsList className="w-full flex overflow-x-auto gap-1 sm:gap-2 sm:grid sm:grid-cols-3">
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>
           <TabsTrigger value="privacy">Privacy</TabsTrigger>
@@ -119,11 +127,11 @@ export default function SettingsPage() {
 
         <TabsContent value="notifications" className="mt-4 space-y-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-1 sm:pb-2">
               <CardTitle>Notification Settings</CardTitle>
               <CardDescription>Configure how you want to receive notifications</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="email-notifications" className="font-medium">
@@ -195,7 +203,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={saveSettings} disabled={isSaving}>
+              <Button onClick={saveSettings} size="sm" disabled={isSaving}>
                 {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </CardFooter>
@@ -204,11 +212,11 @@ export default function SettingsPage() {
 
         <TabsContent value="preferences" className="mt-4 space-y-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-1 sm:pb-2">
               <CardTitle>Preferences</CardTitle>
               <CardDescription>Customize your experience</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="theme">Theme</Label>
@@ -278,7 +286,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={saveSettings} disabled={isSaving}>
+              <Button onClick={saveSettings} size="sm" disabled={isSaving}>
                 {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </CardFooter>
@@ -287,11 +295,11 @@ export default function SettingsPage() {
 
         <TabsContent value="privacy" className="mt-4 space-y-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-1 sm:pb-2">
               <CardTitle>Privacy Settings</CardTitle>
               <CardDescription>Manage your data and privacy preferences</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-2 pb-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="share-data" className="font-medium">
@@ -321,7 +329,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={saveSettings} disabled={isSaving}>
+              <Button onClick={saveSettings} size="sm" disabled={isSaving}>
                 {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </CardFooter>
