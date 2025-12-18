@@ -6,7 +6,7 @@ import { onAuthStateChanged, type User, signOut as firebaseSignOut } from "fireb
 import { useRouter } from "next/navigation"
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { setCookie, deleteCookie } from "cookies-next"
-import { setTheme } from "@/lib/theme" // ✅ Import theme setter
+import { useTheme } from "next-themes"
 import { auth, db } from "@/lib/firebase"
 
 
@@ -68,6 +68,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true)
   const [isNewUser, setIsNewUser] = useState(false)
   const router = useRouter()
+  const { setTheme } = useTheme()
 
   const fetchUserProfile = async (uid: string) => {
     try {

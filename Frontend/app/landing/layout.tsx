@@ -11,7 +11,7 @@ export default function LandingLayout({
   return (
     <div className="flex min-h-svh flex-col">
       <HeaderNav />
-      <main className="flex-1 p-4 sm:p-6">{children}</main>
+      <main className="flex-1 p-4 sm:p-6 pt-16 md:pt-20">{children}</main>
       <footer className="border-t py-6 md:py-10">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-2">

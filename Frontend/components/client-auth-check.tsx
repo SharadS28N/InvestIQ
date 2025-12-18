@@ -13,7 +13,7 @@ export function ClientAuthCheck() {
   const handleLogout = async () => {
     try {
       await signOut()
-      window.location.href = "/landing"
+      window.location.href = "/"
     } catch (error) {
       console.error("Logout error:", error)
     }

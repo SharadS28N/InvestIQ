@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 
-export default function RootPage() {
-  // Redirect root to landing page
+export default function Home() {
   redirect("/landing")
 }

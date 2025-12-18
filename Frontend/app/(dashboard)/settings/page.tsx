@@ -17,12 +17,13 @@ const SelectTrigger = dynamic(() => import("@/components/ui/select").then(m => m
 const SelectValue = dynamic(() => import("@/components/ui/select").then(m => m.SelectValue), { ssr: false })
 import { useAuth } from "@/components/auth-context"
 import { useToast } from "@/components/ui/use-toast"
-import { setTheme } from "@/lib/theme"
+import { useTheme } from "next-themes"
 
 
 export default function SettingsPage() {
   const { userProfile, updateUserProfile } = useAuth()
   const { toast } = useToast()
+  const { setTheme } = useTheme()
   const [isSaving, setIsSaving] = useState(false)
 
   const [settings, setSettings] = useState({
@@ -76,12 +77,12 @@ export default function SettingsPage() {
       }
   
       if (key === "theme") {
-        setTheme(value as "light" | "dark" | "system") // apply theme change immediately
+        setTheme(value as "light" | "dark" | "system")
       }
   
       return updated
     })
-  }  
+  }
 
   const saveSettings = async () => {
     setIsSaving(true)

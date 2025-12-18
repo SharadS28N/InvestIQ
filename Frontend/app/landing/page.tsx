@@ -29,15 +29,13 @@ export default async function LandingPage() {
     <div className="flex flex-col min-h-svh">
       {/* Hero Section */}
       <section className="relative py-16 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-support2 via-white to-brand-support1 dark:via-gray-900 dark:to-gray-950 z-0"></div>
+        <div className="absolute inset-0 bg-background z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10 dark:from-primary/20 dark:to-accent/20 z-0"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-5 z-0"></div>
 
         <div className="relative z-10 w-full px-4 md:px-6 max-w-none">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="flex flex-col space-y-6">
-              <Badge className="w-fit bg-primary/10 text-primary border-primary/20 py-1.5 px-4 text-sm dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40">
-                AI-Powered Investment Platform
-              </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
                 Invest Smarter, <span className="text-primary dark:text-primary-foreground">Grow Better</span>
               </h1>
@@ -69,7 +67,58 @@ export default async function LandingPage() {
             </div>
 
             <div className="relative">
-              <DynamicPortfolioPreview />
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl dark:bg-primary/20"></div>
+              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-brand-accent1/10 rounded-full blur-3xl dark:bg-brand-accent1/20"></div>
+
+              <div className="relative bg-white border rounded-2xl shadow-xl overflow-hidden dark:bg-gray-900 dark:border-gray-800">
+                <div className="p-4 border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="rounded-md bg-primary p-1">
+                      <LineChart className="h-5 w-5 text-primary-foreground" />
+                    </div>
+                    <div className="font-semibold text-lg dark:text-white">Market Snapshot</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">NEPSE • Live</div>
+                </div>
+                <div className="p-4 md:p-6">
+                  <div className="relative w-full h-56 md:h-72">
+                    <svg viewBox="0 0 800 320" className="w-full h-full">
+                      <defs>
+                        <linearGradient id="fillGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="currentColor" stopOpacity="0.18" />
+                          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <g className="text-primary dark:text-primary-300">
+                        <path d="M0 220 L40 210 L80 230 L120 200 L160 210 L200 190 L240 220 L280 200 L320 210 L360 180 L400 210 L440 200 L480 230 L520 210 L560 240 L600 220 L640 250 L680 240 L720 270 L760 260 L800 280" fill="none" stroke="currentColor" strokeWidth="3" style={{strokeDasharray: "1200 1200", strokeDashoffset: 1200, animation: "dash 2400ms ease-out forwards"}} />
+                        <path d="M0 220 L40 210 L80 230 L120 200 L160 210 L200 190 L240 220 L280 200 L320 210 L360 180 L400 210 L440 200 L480 230 L520 210 L560 240 L600 220 L640 250 L680 240 L720 270 L760 260 L800 280" fill="url(#fillGradient)" />
+                      </g>
+                      <g className="text-muted-foreground">
+                        <line x1="0" y1="280" x2="800" y2="280" stroke="currentColor" strokeOpacity="0.25" />
+                        <line x1="0" y1="240" x2="800" y2="240" stroke="currentColor" strokeOpacity="0.15" />
+                        <line x1="0" y1="200" x2="800" y2="200" stroke="currentColor" strokeOpacity="0.1" />
+                      </g>
+                    </svg>
+                    <div className="absolute top-2 right-2 flex items-center gap-2 px-2 py-1 rounded-md bg-white/80 backdrop-blur dark:bg-gray-800/80">
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                      <span className="text-xs text-muted-foreground">Updating</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="bg-gray-50 p-3 rounded-lg dark:bg-gray-800">
+                      <div className="text-sm text-gray-500 dark:text-gray-300">NEPSE Index</div>
+                      <div className="text-xl md:text-2xl font-bold dark:text-white">2,345.21</div>
+                      <div className="text-xs text-green-600 dark:text-green-400">+1.12%</div>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg dark:bg-gray-800">
+                      <div className="text-sm text-gray-500 dark:text-gray-300">Top Gainer</div>
+                      <div className="text-lg font-semibold dark:text-white">NABIL</div>
+                      <div className="text-xs text-green-600 dark:text-green-400">+3.8%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <style>{`@keyframes dash { to { stroke-dashoffset: 0; } }`}</style>
             </div>
           </div>
         </div>
