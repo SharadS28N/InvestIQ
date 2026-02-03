@@ -32,15 +32,17 @@ export default async function DashboardLayout({
     // If noRedirect is true, we'll render the page anyway to break the loop
   }
 
-  return (
-    <SidebarProvider defaultOpen={false}>
-      <div className="flex min-h-svh">
-        <AppSidebar />
+          return (
+            <SidebarProvider defaultOpen={true}>
+              <div className="flex min-h-svh">
+                <AppSidebar />
         <div className="flex-1 flex flex-col">
           <header className="sticky top-0 z-40 w-full border-b bg-background">
             <HeaderNav 
               className="sticky top-0 border-b bg-background" 
               hideMobileMenu={true}
+              hideLogo={true}
+              hideActions={true}
               beforeLogo={<SidebarTrigger className="mr-2 md:hidden" />}
             />
           </header>

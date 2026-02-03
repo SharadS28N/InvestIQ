@@ -74,7 +74,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar variant="floating" collapsible="offcanvas" side="left">
+    <Sidebar variant="sidebar" collapsible="icon" side="left">
       <SidebarHeader className="p-4">
         <div className="flex items-center justify-between gap-2">
           <Link href="/" className="flex items-center gap-2">

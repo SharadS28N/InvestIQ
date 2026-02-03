@@ -14,9 +14,11 @@ interface HeaderNavProps {
   className?: string;
   beforeLogo?: React.ReactNode;
   hideMobileMenu?: boolean;
+  hideLogo?: boolean;
+  hideActions?: boolean;
 }
 
-function HeaderNav({ className, beforeLogo, hideMobileMenu }: HeaderNavProps) {
+function HeaderNav({ className, beforeLogo, hideMobileMenu, hideLogo, hideActions }: HeaderNavProps) {
   return (
     <header className={cn("fixed top-0 left-0 right-0 z-50 w-full bg-transparent", className)}>
       <div className="w-full px-3 sm:px-4 py-2">
@@ -81,14 +83,16 @@ function HeaderNav({ className, beforeLogo, hideMobileMenu }: HeaderNavProps) {
             </div>
           )}
           {beforeLogo}
-          <Link href="/" className="hidden md:flex items-center gap-2">
-            <div className="rounded-md bg-primary p-1">
-              <LineChart className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-primary-foreground" />
-            </div>
-            <div className="font-semibold text-lg sm:text-xl lg:text-2xl text-primary">
-              InvestIQ
-            </div>
-          </Link>
+          {!hideLogo && (
+            <Link href="/" className="hidden md:flex items-center gap-2">
+              <div className="rounded-md bg-primary p-1">
+                <LineChart className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-primary-foreground" />
+              </div>
+              <div className="font-semibold text-lg sm:text-xl lg:text-2xl text-primary">
+                InvestIQ
+              </div>
+            </Link>
+          )}
         </div>
         <div className="flex items-center justify-center">
           <nav className="hidden md:flex items-center gap-3 lg:gap-6 justify-center">
@@ -113,10 +117,14 @@ function HeaderNav({ className, beforeLogo, hideMobileMenu }: HeaderNavProps) {
           </Link>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <ThemeToggle />
-          <div className="hidden md:block">
-            <ClientAuthCheck />
-          </div>
+          {!hideActions && (
+            <>
+              <ThemeToggle />
+              <div className="hidden md:block">
+                <ClientAuthCheck />
+              </div>
+            </>
+          )}
         </div>
        </div>
      </div>
