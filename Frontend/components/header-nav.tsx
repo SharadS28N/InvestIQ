@@ -112,9 +112,11 @@ function HeaderNav({ className, beforeLogo, hideMobileMenu }: HeaderNavProps) {
             <div className="font-semibold text-lg text-primary">InvestIQ</div>
           </Link>
         </div>
-        <div className="hidden md:flex items-center justify-end pr-2 md:pr-4 gap-2">
+        <div className="flex items-center justify-end gap-2">
           <ThemeToggle />
-          <ClientAuthCheck />
+          <div className="hidden md:block">
+            <ClientAuthCheck />
+          </div>
         </div>
        </div>
      </div>

@@ -53,7 +53,7 @@ export default async function LandingPage() {
                       className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden"
                     >
                       <img
-                        src={image}
+                        src={`/api/proxy-image?url=${encodeURIComponent(image)}`}
                         alt={`User ${index + 1}`}
                         className="w-full h-full object-cover object-center"
                       />

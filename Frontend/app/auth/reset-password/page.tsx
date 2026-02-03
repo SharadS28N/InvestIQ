@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-support2 to-white p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-support2 to-white dark:from-background dark:to-background p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-2">

@@ -10,8 +10,8 @@ export default function LandingLayout({
 }>) {
   return (
     <div className="flex min-h-svh flex-col">
-      <HeaderNav />
-      <main className="flex-1 p-4 sm:p-6 pt-16 md:pt-20">{children}</main>
+      <HeaderNav className="fixed top-4 left-1/2 -translate-x-1/2 right-auto w-[95%] md:w-[96%] max-w-[1920px] rounded-full border bg-background/80 backdrop-blur-md shadow-sm z-50 transition-all duration-300" />
+      <main className="flex-1 p-4 sm:p-6 pt-24 md:pt-28">{children}</main>
       <footer className="border-t py-6 md:py-10">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-2">
